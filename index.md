@@ -9,7 +9,7 @@ title: Home
   <div class="hero-content">
     <h1>Hi, I'm Mustapha El Bouazaoui</h1>
     <p class="subtitle">Cybersecurity and Telecom Engineer & Math Enthusiast</p>
-    <p>I specialize in vulnerabilities management and cryptography.But I'm passionate about machine learning/deep learning and competitive programming</p>
+    <p>I specialize in vulnerability management and cryptography.But I'm passionate about machine learning/deep learning and competitive programming</p>
     <div class="cta-buttons">
       <a href="{{ '/about/' | relative_url }}" class="btn btn-primary">About Me</a>
       <a href="{{ '/projects/' | relative_url }}" class="btn btn-secondary">View Projects</a>
