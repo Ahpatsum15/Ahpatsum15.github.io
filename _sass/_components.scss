@@ -22,6 +22,7 @@
   }
 }
 
+
 .cta-buttons {
   margin-top: 20px;
   a {
@@ -114,5 +115,40 @@
     display: block;
     margin: 5px 0;
     margin-left: 0;
+  }
+}
+
+
+.contact-info {
+  background-color: #f9f9f9; // Light background
+  padding: 20px;
+  border-radius: 5px;
+  border-left: 4px solid #3498db; // Blue accent bar
+  margin-bottom: 20px;
+
+  ul {
+    list-style: none; // Remove default bullets
+    padding-left: 0;
+    margin: 0;
+    li {
+      margin-bottom: 10px;
+      padding: 5px 0;
+
+      strong {
+        display: inline-block; // Makes the label stand out
+        width: 100px; // Adjust width for label alignment
+        color: #2c3e50; // Darker color for labels
+      }
+
+      a {
+        color: #3498db; // Link color
+        text-decoration: none;
+        font-weight: 500; // Slightly bolder link text
+        &:hover {
+          text-decoration: underline;
+          color: #2980b9; // Darker blue on hover
+        }
+      }
+    }
   }
 }
