@@ -23,7 +23,7 @@ title: Home
   <div class="project-grid">
     <!-- You can list a couple of key projects here, or pull from _data/projects.yml -->
     <div class="project-card">
-      <h3><a href="https://github.com/Ahpatsum15/understanding-cryptography" target="_blank">Understanding Cryptography Solutions</a></h3>
+      <h3><a href="https://github.com/Ahpatsum15/Understanding-cryptography-solution-handbook-even-numbered" target="_blank">Understanding Cryptography Solutions</a></h3>
       <p>Solutions and explanations for exercises from the "Understanding Cryptography" textbook.</p>
     </div>
     <!-- <div class="project-card">
