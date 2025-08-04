@@ -1,5 +1,4 @@
-# Add README content to explain how to use the template
-readme_content = """# Personal Portfolio Website
+# Personal Portfolio Website
 
 This is a clean and scalable portfolio template built with **Jekyll** and hosted using **GitHub Pages**.  
 It uses the elegant **Minimal Mistakes** theme.
