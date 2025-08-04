@@ -1,0 +1,34 @@
+title: "Mus Ahpa Portfolio"
+description: "Cybersecurity Engineer • Cryptography Enthusiast • Machine Learning Learner"
+baseurl: ""
+url: "https://Ahpatsum15.github.io"
+theme: minimal-mistakes-jekyll
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-include-cache
+  - jekyll-archives
+
+markdown: kramdown
+
+author:
+  name   : "Mustapha EL BOUAZAOUI"
+  avatar : "/assets/profile.jpg"
+  bio    : "Recent graduate in cybersecurity, passionate about math, ML, and cryptography."
+  location: "France"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-github"
+      url: "https://github.com/Ahpatsum15"
+    - label: "LinkedIn"
+      icon: "fab fa-linkedin"
+      url: "https://linkedin.com/in/elbouazaouimustapha"
+
+include:
+  - _pages
+
+paginate: 5
+paginate_path: /page:num/
