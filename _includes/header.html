@@ -1,0 +1,14 @@
+<!-- _includes/header.html -->
+<header class="site-header">
+  <div class="wrapper">
+    <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title | escape }}</a>
+    <nav class="site-nav">
+      <a href="{{ '/' | relative_url }}">Home</a>
+      <a href="{{ '/about/' | relative_url }}">About</a>
+      <a href="{{ '/projects/' | relative_url }}">Projects</a>
+      <!-- <a href="/blog/">Blog</a> --> <!-- Uncomment when you add a blog -->
+      <a href="{{ site.github_url }}" target="_blank">GitHub</a>
+      <a href="mailto:{{ site.email }}">Contact</a>
+    </nav>
+  </div>
+</header>

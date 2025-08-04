@@ -1,0 +1,53 @@
+// _sass/_layout.scss
+
+.wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.site-header {
+  background-color: $primary-color;
+  color: white;
+  padding: 15px 0;
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .site-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: white;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  .site-nav {
+    a {
+      color: white;
+      margin-left: 20px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.page-content {
+  padding: 40px 0;
+}
+
+.site-footer {
+  background-color: #f5f5f5;
+  padding: 20px 0;
+  text-align: center;
+  border-top: 1px solid $border-color;
+  .social-links {
+    margin-top: 10px;
+    a {
+      margin: 0 10px;
+      color: $primary-color;
+    }
+  }
+}

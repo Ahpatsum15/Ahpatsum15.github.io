@@ -1,0 +1,11 @@
+---
+# assets/css/style.scss
+# Front matter needed for Jekyll to process this file
+---
+
+// Import partials from `sass_dir` (defaults to `_sass`)
+@import
+  "base",
+  "layout",
+  "components"
+;

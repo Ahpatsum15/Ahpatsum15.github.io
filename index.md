@@ -1,10 +1,55 @@
 ---
-layout: home
-author_profile: true
-title: "Hi, I’m Mustapha 👋"
-excerpt: "Welcome to my personal site!"
+# index.md
+layout: default
+title: Home
 ---
 
-🚀 I’m a recent cybersecurity graduate building cool stuff in cryptography and machine learning.
+<div class="hero">
+  <img src="{{ '/assets/images/profile.jpg' | relative_url }}" alt="Mustapha El Bouazaoui" class="profile-image">
+  <div class="hero-content">
+    <h1>Hi, I'm Mustapha El Bouazaoui</h1>
+    <p class="subtitle">Cybersecurity and Telecom Engineer & Math Enthusiast</p>
+    <p>I specialize in vulnerabilities management and cryptography.But I'm passionate about machine learning/deep learning and competitive programming</p>
+    <div class="cta-buttons">
+      <a href="{{ '/about/' | relative_url }}" class="btn btn-primary">About Me</a>
+      <a href="{{ '/projects/' | relative_url }}" class="btn btn-secondary">View Projects</a>
+      <a href="{{ '/assets/files/Mustapha_CV.pdf' | relative_url }}" class="btn btn-outline" target="_blank">Download CV</a>
+    </div>
+  </div>
+</div>
 
-Check my latest blog posts or explore my projects.
+<div class="section">
+  <h2>Featured Projects</h2>
+  <div class="project-grid">
+    <!-- You can list a couple of key projects here, or pull from _data/projects.yml -->
+    <div class="project-card">
+      <h3><a href="https://github.com/Ahpatsum15/understanding-cryptography" target="_blank">Understanding Cryptography Solutions</a></h3>
+      <p>Solutions and explanations for exercises from the "Understanding Cryptography" textbook.</p>
+    </div>
+    <!-- <div class="project-card">
+      <h3><a href="https://github.com/Ahpatsum15/unhashit" target="_blank">UnhashIt</a></h3>
+      <p>A smart hash analyzer tool.</p>
+    </div>
+  </div>-->
+  <p><a href="{{ '/projects/' | relative_url }}">See all projects &rarr;</a></p>
+</div>
+
+<!-- Optional: Latest Blog Post Section (if you add a blog later) -->
+<!--
+<div class="section">
+  <h2>Latest Blog Posts</h2>
+  <ul class="post-list">
+    {% for post in site.posts limit:3 %}
+      <li>
+        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+      </li>
+    {% endfor %}
+  </ul>
+  <p><a href="/blog/">Read more posts &rarr;</a></p>
+</div>
+-->

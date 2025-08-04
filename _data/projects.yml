@@ -1,0 +1,40 @@
+# _data/projects.yml
+- name: "Understanding Cryptography Solutions"
+  url: "https://github.com/Ahpatsum15/understanding-cryptography"
+  description: "Solutions and explanations for exercises from the 'Understanding Cryptography' textbook."
+  category: "Cryptography"
+
+- name: "UnhashIt"
+  url: "https://github.com/Ahpatsum15/unhashit"
+  description: "A smart hash analyzer tool."
+  category: "Cryptography"
+
+- name: "Vulnerability Management API"
+  # url: "#" # Add if you have a dedicated page/repo
+  description: "Developed an API for automated vulnerability detection and risk assessment. (R&D Engineer, +Simple Assurtech)"
+  category: "Professional"
+
+- name: "Attack Surface Management API"
+  # url: "#"
+  description: "Built an API to manage and monitor the organization's attack surface with regular scans and alerts. (R&D Engineer, +Simple Assurtech)"
+  category: "Professional"
+
+- name: "PGP Key Management API"
+  # url: "#"
+  description: "Created an internal directory for managing PGP public keys. (R&D Engineer, +Simple Assurtech)"
+  category: "Professional"
+
+- name: "5G NRF Security Analysis"
+  # url: "#"
+  description: "Researched the Network Repository Function (NRF) in 5G, defined vulnerabilities, and integrated Microsoft Sentinel for monitoring. (Intern, Nokia)"
+  category: "Professional"
+
+- name: "Satellite Communication Interference Detection"
+  # url: "#"
+  description: "Used autoencoders for detecting and classifying interference in satellite communications. (Intern, IMT Atlantique)"
+  category: "Professional"
+
+# - name: "Deep Learning Project"
+#   url: "#"
+#   description: "Coming soon: Deep learning projects and visualizations."
+#   category: "Machine Learning"
