@@ -35,20 +35,29 @@ That’s when I discovered Obsidian.
 
 Markdown is the core of Obsidian — it’s a lightweight markup language that makes formatting fast and intuitive. Here are some basics:
 
-| Feature         | Markdown Syntax Example              | Output                        |
-|----------------|---------------------------------------|-------------------------------|
-| **Heading**     | `# Title`, `## Subtitle`, `### H3`   | Large, medium, small titles   |
-| **Bold**        | `**bold text**`                      | **bold text**                 |
-| *Italic*        | `*italic text*`                      | *italic text*                 |
-| ***Bold+Italic*** | `***bold italic***`               | ***bold italic***             |
-| `Code`          | `` `inline code` ``                  | `inline code`                 |
-| Code Block      | <pre>```python<br>print("Hello")<br>```</pre> | Multiline code block      |
-| Link            | `[text](https://example.com)`        | [text](https://example.com)   |
-| Image           | `![alt](path/to/img.jpg)`            | Embedded image                |
-| List (bullets)  | `- Item` or `* Item`                 | • Item                        |
-| List (numbered) | `1. First<br>2. Second`              | 1. First<br>2. Second         |
-| Checkbox        | `- [ ] Task` / `- [x] Done`          | ☐ / ☑                         |
-| Quote           | `> Quoted text`                      | > Quoted text                 |
+
+| Feature           | Markdown Syntax Example               | Output                    |
+|------------------|----------------------------------------|---------------------------|
+| **Heading**       | `# Title` / `## Subtitle` / `### H3`  | Large, medium, small titles |
+| **Bold**          | `**bold text**`                       | **bold text**             |
+| *Italic*          | `*italic text*`                       | *italic text*             |
+| ***Bold+Italic*** | `***bold italic***`                   | ***bold italic***         |
+| `Code`            | `` `inline code` ``                   | `inline code`             |
+| Code Block        | \`\`\`python<br>print("Hello")<br>\`\`\` (see below) | Code block            |
+| Link              | `[text](https://example.com)`         | [text](https://example.com) |
+| Image             | `![alt text](path/to/image.jpg)`      | ![alt text](path/to/image.jpg) |
+| Bullet List       | `- Item 1`<br>`- Item 2`              | - Item 1<br>- Item 2      |
+| Numbered List     | `1. First item`<br>`2. Second item`   | 1. First item<br>2. Second item |
+| Checkbox          | `- [ ] Task`<br>`- [x] Done`          | - [ ] Task<br>- [x] Done  |
+| Blockquote        | `> Quoted text`                       | > Quoted text             |
+
+### Example: Code Block
+
+<pre>
+```python
+def greet():
+    print("Hello, Markdown!")``` </pre>
+
 
 Once you learn Markdown, it becomes second nature. And best of all — it works outside Obsidian too!
 
