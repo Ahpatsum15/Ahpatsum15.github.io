@@ -44,8 +44,8 @@ Markdown is the core of Obsidian — it’s a lightweight markup language that m
 | ***Bold+Italic*** | `***bold italic***`                   | ***bold italic***         |
 | `Code`            | `` `inline code` ``                   | `inline code`             |
 | Code Block        | \`\`\`python<br>print("Hello")<br>\`\`\` (see below) | Code block            |
-| Link              | `[text](https://example.com)`         | [text](https://example.com) |
-| Image             | `![alt text](path/to/image.jpg)`      | ![alt text](path/to/image.jpg) |
+| Link              | `[text](https://example.com)`         | [my github](https://github.com/ahpatsum15) |
+| Image             | `![alt text](path/to/image.jpg)`      | ![favicon](/assets/images/favicon.ico) |
 | Bullet List       | `- Item 1`<br>`- Item 2`              | - Item 1<br>- Item 2      |
 | Numbered List     | `1. First item`<br>`2. Second item`   | 1. First item<br>2. Second item |
 | Checkbox          | `- [ ] Task`<br>`- [x] Done`          | - [ ] Task<br>- [x] Done  |
