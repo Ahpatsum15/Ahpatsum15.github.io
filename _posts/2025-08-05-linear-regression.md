@@ -10,7 +10,7 @@ tags:
 ---
 # 📊 Linear Regression: Mathematical Foundations, Gradient Descent, and Robust Fitting with RANSAC
 
-> **Author**: Mustapha EL BOUAZAOUI 
+> **Author**: Mustapha EL BOUAZAOUI <br>
 > **Tags**: Machine Learning, Linear Regression, Optimization, RANSAC, Outliers, Gradient Descent, Normal Equation
 
 Linear regression is one of the most fundamental tools in machine learning and statistics. It models the relationship between a dependent variable and one or more independent variables using a linear equation. While it's simple, its mathematical foundation, optimization methods, and robust variants are essential for real-world applications.
@@ -127,7 +127,7 @@ We compare **Normal Equation** vs **Gradient Descent** runtime as the number of 
 
 When features are highly correlated, $ X^T X $ becomes ill-conditioned, leading to unstable solutions.
 
-![Numerical Instability of Normal Equation](/assets/images/normal_eq_instability.png)
+![Numerical Instability of Normal Equation](/assets/images/normal_eq_instability.png){: width="80%"}
 
 > **Observation**: Tiny changes in data cause large swings in parameters — sign of **numerical instability** due to multicollinearity.
 
@@ -230,7 +230,7 @@ $$
 
 Let's generate a simple 1D regression and plot the convergence paths.
 
-![BGD vs SGD Convergence](/assets/images/bgd_vs_sgd.png)
+![BGD vs SGD Convergence](/assets/images/bgd_vs_sgd.png){: width="80%"}
 
 > **Interpretation**: BGD takes a smooth path toward the minimum. SGD jumps around but trends toward it. SGD is faster per step but noisier.
 
@@ -240,7 +240,7 @@ Let's generate a simple 1D regression and plot the convergence paths.
 
 Outliers can severely distort linear regression models. Let's see how.
 
-![Outliers Drastically Affect Linear Regression](/assets/images/outliers_effect.png)
+![Outliers Drastically Affect Linear Regression](/assets/images/outliers_effect.png){: width="80%"}
 
 > **Observation**: The two red points pull the regression line significantly, making it a poor fit for the majority of data.
 
@@ -266,7 +266,7 @@ Outliers can severely distort linear regression models. Let's see how.
 
 ### ✅ RANSAC Implementation and Visualization
 
-![RANSAC: Inliers vs Outliers and Model Comparison](/assets/images/ransac_vs_ols.png)
+![RANSAC: Inliers vs Outliers and Model Comparison](/assets/images/ransac_vs_ols.png){: width="80%"}
 
 > **Insight**: RANSAC successfully ignores outliers and recovers a line close to the true underlying model.
 
@@ -304,7 +304,7 @@ All code and generated images:
 - `bgd_vs_sgd.png`
 - `outliers_effect.png`
 - `ransac_vs_ols.png`
-- Full Python script: `linear_regression_blog.py` 
+- Full Python script: [linear_regression_blog.py](https://github.com/Ahpatsum15/Ahpatsum15.github.io/blob/main/assets/linear_regression.py)
 
 > 💡 **Tip**: You can extend RANSAC to polynomial regression, plane fitting in 3D, or even homography estimation in computer vision!
 
