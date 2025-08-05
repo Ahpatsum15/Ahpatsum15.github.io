@@ -172,7 +172,7 @@ plt.tight_layout()
 plt.show()
 plt.close()
 ```
-![Normal Equation vs Gradient Descent Time](/assets/images/normal_eq_vs_sgd_time.png){: width="80%"}
+![Normal Equation vs Gradient Descent Time](/assets/images/normal_eq_vs_gd_time.png){: width="80%"}
 
 > **Observation**: Normal Equation time grows rapidly — **cubic in $ n $** — while SGD scales linearly per iteration.
 
