@@ -10,7 +10,7 @@ tags:
 ---
 # 📊 Linear Regression: Mathematical Foundations, Gradient Descent, and Robust Fitting with RANSAC
 
-> **Author**: [Your Name]  
+> **Author**: Mustapha EL BOUAZAOUI 
 > **Tags**: Machine Learning, Linear Regression, Optimization, RANSAC, Outliers, Gradient Descent, Normal Equation
 
 Linear regression is one of the most fundamental tools in machine learning and statistics. It models the relationship between a dependent variable and one or more independent variables using a linear equation. While it's simple, its mathematical foundation, optimization methods, and robust variants are essential for real-world applications.
