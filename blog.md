@@ -33,10 +33,15 @@ permalink: /blog/
   </div>
 
   <div class="category">
-    <h3>🤖 Machine Learning (Coming Soon)</h3>
+    <h3>🤖 Machine Learning </h3>
     <p>Insights into ML concepts, projects, and learning resources.</p>
     <ul>
-      <li><em>Posts coming soon...</em></li>
+      {% for post in site.categories.Machine-learning %}
+        <li>
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>
+        </li>
+      {% endfor %}
     </ul>
   </div>
 
