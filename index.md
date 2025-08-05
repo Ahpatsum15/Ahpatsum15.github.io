@@ -19,7 +19,7 @@ title: Home
 </div>
 
 <div class="section">
-  <h2>Featured Projects</h2>
+  <h2>Featured Projects and blog</h2>
   <div class="project-grid">
     <!-- You can list a couple of key projects here, or pull from _data/projects.yml -->
     <div class="project-card">
@@ -35,7 +35,7 @@ title: Home
 </div>
 
 <!-- Optional: Latest Blog Post Section (if you add a blog later) -->
-<!--
+
 <div class="section">
   <h2>Latest Blog Posts</h2>
   <ul class="post-list">
