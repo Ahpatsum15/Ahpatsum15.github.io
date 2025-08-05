@@ -117,7 +117,7 @@ Let’s visualize these issues.
 
 We compare **Normal Equation** vs **Gradient Descent** runtime as the number of features increases.
 
-![Normal Equation vs Gradient Descent Time](/assets/images/normal_eq_vs_gd_time.png)
+![Normal Equation vs Gradient Descent Time](/assets/images/normal_eq_vs_gd_time.png){: width="80%"}
 
 > **Observation**: Normal Equation time grows rapidly — **cubic in $ n $** — while GD scales linearly per iteration.
 
