@@ -115,18 +115,135 @@ Let’s visualize these issues.
 
 ### 📉 Illustration 1: Computation Time vs Number of Features
 
-We compare **Normal Equation** vs **Gradient Descent** runtime as the number of features increases.
+We compare **Normal Equation** vs **Stochastic Gradient Descent** runtime as the number of features increases.
+```python 
 
-![Normal Equation vs Gradient Descent Time](/assets/images/normal_eq_vs_gd_time.png){: width="80%"}
+import numpy as np
+import matplotlib.pyplot as plt
+import time
 
-> **Observation**: Normal Equation time grows rapidly — **cubic in $ n $** — while GD scales linearly per iteration.
+def normal_equation_time(X, y):
+    start = time.time()
+    theta = np.linalg.solve(X.T @ X, X.T @ y)
+    return time.time() - start
+
+def stochastic_gradient_descent_time(X, y, lr=0.01, n_epochs=10):
+    start = time.time()
+    m, n = X.shape
+    theta = np.random.randn(n)
+    for epoch in range(n_epochs):
+        indices = np.random.permutation(m)
+        for i in indices:
+            xi = X[i:i+1]
+            yi = y[i]
+            gradients = xi.T @ (xi @ theta - yi)
+            theta -= lr * gradients
+    return time.time() - start
+
+# Fixed number of samples
+n_samples = 1000
+feature_dims = list(range(100, 2100, 200)) + [2500, 3000, 3500, 4000]
+
+ne_times, sgd_times = [], []
+
+np.random.seed(42)
+
+for n_features in feature_dims:
+    X = np.random.randn(n_samples, n_features)
+    X = np.c_[np.ones((n_samples, 1)), X]  # Add bias
+    y = np.random.randn(n_samples)
+
+    # Normalize features (excluding bias)
+    X[:, 1:] = (X[:, 1:] - X[:, 1:].mean(axis=0)) / (X[:, 1:].std(axis=0) + 1e-8)
+
+    ne_times.append(normal_equation_time(X, y))
+    sgd_times.append(stochastic_gradient_descent_time(X, y))
+
+# Plot
+plt.figure(figsize=(12, 6))
+plt.plot(feature_dims, ne_times, 'o-', label='Normal Equation', linewidth=2)
+plt.plot(feature_dims, sgd_times, 's-', label='Stochastic Gradient Descent (10 epochs)', linewidth=2)
+plt.xlabel('Number of Features')
+plt.ylabel('Time (seconds)')
+plt.title('Normal Equation vs SGD — Exponential Slowdown of Matrix Inversion')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+plt.close()
+```
+![Normal Equation vs Gradient Descent Time](/assets/images/normal_eq_vs_sgd_time.png){: width="80%"}
+
+> **Observation**: Normal Equation time grows rapidly — **cubic in $ n $** — while SGD scales linearly per iteration.
 
 ---
 
 ### 📉 Illustration 2: Numerical Instability with Correlated Features
 
 When features are highly correlated, $ X^T X $ becomes ill-conditioned, leading to unstable solutions.
+```python
+import numpy as np
+import matplotlib.pyplot as plt
 
+# Generate correlated features
+np.random.seed(42)
+n_samples = 50
+
+x1 = np.random.randn(n_samples)
+x2 = x1 + 0.01 * np.random.randn(n_samples)  # Highly correlated with x1
+
+X_corr = np.c_[np.ones(n_samples), x1, x2]
+y = 3 * x1 + 2 + np.random.randn(n_samples) * 0.5
+
+# Compute theta using np.linalg.lstsq (more stable)
+theta_exact, residuals, rank, s = np.linalg.lstsq(X_corr, y, rcond=None)
+
+# Perturb X and recompute theta
+X_perturbed = X_corr + 0.001 * np.random.randn(*X_corr.shape)
+theta_perturbed, _, _, _ = np.linalg.lstsq(X_perturbed, y, rcond=None)
+
+# Print results
+print("Exact solution:", np.round(theta_exact, 3))
+print("Perturbed solution:", np.round(theta_perturbed, 3))
+print("Difference norm:", np.linalg.norm(theta_exact - theta_perturbed))
+
+# Plot
+labels = ['θ₀ (bias)', 'θ₁ (x₁)', 'θ₂ (x₂)']
+x = np.arange(len(labels))
+width = 0.35
+
+plt.figure(figsize=(10, 6))
+bars1 = plt.bar(x - width/2, theta_exact, width, label='Original Data', color='skyblue')
+bars2 = plt.bar(x + width/2, theta_perturbed, width, label='Perturbed Data', color='salmon')
+
+plt.axhline(0, color='gray', linewidth=0.8, linestyle='--')
+
+plt.xlabel('Parameter')
+plt.ylabel('Coefficient Value')
+plt.title('Normal Equation Sensitivity: Correlated Features & Small Noise')
+plt.xticks(x, labels)
+plt.legend()
+plt.grid(True, axis='y', alpha=0.3)
+
+# Annotate bars with their heights
+def annotate_bars(bars):
+    for bar in bars:
+        height = bar.get_height()
+        plt.annotate(f'{height:.2f}',
+                     xy=(bar.get_x() + bar.get_width() / 2, height),
+                     xytext=(0, 5),  # 5 points vertical offset
+                     textcoords="offset points",
+                     ha='center', va='bottom',
+                     fontsize=9)
+
+annotate_bars(bars1)
+annotate_bars(bars2)
+
+plt.tight_layout()
+plt.show()
+
+plt.close()
+```
 ![Numerical Instability of Normal Equation](/assets/images/normal_eq_instability.png){: width="80%"}
 
 > **Observation**: Tiny changes in data cause large swings in parameters — sign of **numerical instability** due to multicollinearity.
@@ -146,35 +263,46 @@ When features are highly correlated, $ X^T X $ becomes ill-conditioned, leading 
 
 ---
 
-## 3. 🔮 Probability Interpretation: Maximum Likelihood
+## 3. 🔮 Probability Interpretation: Maximum Likelihood Estimation
 
-Assume the true relationship is:
+While the **Normal Equation** gives us a solution from an optimization perspective, we can also derive linear regression from a **probabilistic viewpoint**.
+
+Assume the true data-generating process is:
 
 $$
-y^{(i)} = \theta^T x^{(i)} + \epsilon^{(i)}
+y^{(i)} = \theta^T x^{(i)} + \epsilon^{(i)}, \quad \epsilon^{(i)} \sim \mathcal{N}(0, \sigma^2)
 $$
 
-where $ \epsilon^{(i)} \sim \mathcal{N}(0, \sigma^2) $ is Gaussian noise.
+That is, each target $y^{(i)}$ is generated by a linear function plus **Gaussian noise**. This assumption is realistic in many real-world scenarios where errors arise from random, independent sources.
 
-Then the probability of observing $ y^{(i)} $ is:
+Then the conditional distribution of $y^{(i)}$ is:
 
 $$
 P(y^{(i)} | x^{(i)}; \theta) = \frac{1}{\sqrt{2\pi}\sigma} \exp\left(-\frac{(y^{(i)} - \theta^T x^{(i)})^2}{2\sigma^2}\right)
 $$
 
-The likelihood over all samples:
+The **likelihood** of the entire dataset is the product of individual probabilities:
 
 $$
 \mathcal{L}(\theta) = \prod_{i=1}^{m} P(y^{(i)} | x^{(i)}; \theta)
 $$
 
-Taking log-likelihood:
+Taking the **log-likelihood** simplifies the expression:
 
 $$
-\log \mathcal{L}(\theta) = \text{const} - \frac{1}{2\sigma^2} \sum_{i=1}^{m} (y^{(i)} - \theta^T x^{(i)})^2
+\log \mathcal{L}(\theta) = -\frac{m}{2} \log(2\pi) - m \log \sigma - \frac{1}{2\sigma^2} \sum_{i=1}^{m} (y^{(i)} - \theta^T x^{(i)})^2
 $$
 
-Maximizing log-likelihood is equivalent to minimizing MSE. Hence, **least squares = maximum likelihood under Gaussian noise**.
+Maximizing this with respect to $\theta$ is equivalent to minimizing the sum of squared errors:
+
+$$
+\sum_{i=1}^{m} (y^{(i)} - \theta^T x^{(i)})^2
+$$
+
+Which is exactly the **Mean Squared Error (MSE)**.
+
+> ✅ **Conclusion**: Minimizing MSE = Maximizing likelihood under Gaussian noise.  
+> This justifies the use of linear regression when errors are normally distributed and provides a **statistical foundation** for the method.
 
 ---
 
@@ -229,7 +357,63 @@ $$
 ### 📈 Visualization: BGD vs SGD Convergence
 
 Let's generate a simple 1D regression and plot the convergence paths.
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
 
+# Set random seed
+np.random.seed(42)
+
+X = 2 * np.random.rand(100, 1)
+y = 4 + 3 * X.squeeze() + np.random.randn(100)
+X_b = np.c_[np.ones((100, 1)), X]
+
+def batch_gradient_descent(X, y, lr=0.1, n_iters=20):
+    theta = np.random.randn(2, 1)
+    theta_path = []
+    m = len(y)
+    for i in range(n_iters):
+        gradients = (1/m) * X.T.dot(X.dot(theta) - y.reshape(-1,1))
+        theta = theta - lr * gradients
+        theta_path.append(theta.copy())
+    return np.array(theta_path)
+
+def stochastic_gradient_descent(X, y, lr=0.1, n_epochs=2):
+    theta = np.random.randn(2, 1)
+    theta_path = []
+    m = len(y)
+    for epoch in range(n_epochs):
+        for i in range(m):
+            xi = X[i:i+1]
+            yi = y[i:i+1].reshape(-1,1)
+            gradients = xi.T.dot(xi.dot(theta) - yi)
+            theta = theta - lr * gradients
+            theta_path.append(theta.copy())
+    return np.array(theta_path)
+
+theta_bgd_path = batch_gradient_descent(X_b, y)
+theta_sgd_path = stochastic_gradient_descent(X_b, y)
+
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+bgd_thetas = theta_bgd_path.squeeze()
+plt.plot(bgd_thetas[:, 0], bgd_thetas[:, 1], 'b-s', label='BGD', markersize=4)
+plt.title("Batch Gradient Descent")
+plt.xlabel("Intercept (θ₀)")
+plt.ylabel("Slope (θ₁)")
+plt.legend()
+
+plt.subplot(1, 2, 2)
+sgd_thetas = theta_sgd_path.squeeze()
+plt.plot(sgd_thetas[:, 0], sgd_thetas[:, 1], 'r-o', label='SGD', markersize=2, alpha=0.6)
+plt.title("Stochastic Gradient Descent")
+plt.xlabel("Intercept (θ₀)")
+plt.ylabel("Slope (θ₁)")
+plt.legend()
+plt.tight_layout()
+plt.close()
+```
 ![BGD vs SGD Convergence](/assets/images/bgd_vs_sgd.png){: width="80%"}
 
 > **Interpretation**: BGD takes a smooth path toward the minimum. SGD jumps around but trends toward it. SGD is faster per step but noisier.
@@ -240,23 +424,141 @@ Let's generate a simple 1D regression and plot the convergence paths.
 
 Outliers can severely distort linear regression models. Let's see how.
 
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+X_outlier = np.vstack([X, [0.1], [1.9]])
+y_outlier = np.hstack([y, 15, -5])
+X_outlier_b = np.c_[np.ones((102, 1)), X_outlier]
+
+theta_clean = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y)
+theta_noisy = np.linalg.inv(X_outlier_b.T.dot(X_outlier_b)).dot(X_outlier_b.T).dot(y_outlier)
+
+X_line = np.linspace(0, 2, 100)
+y_clean_line = theta_clean[0] + theta_clean[1] * X_line
+y_noisy_line = theta_noisy[0] + theta_noisy[1] * X_line
+
+plt.figure(figsize=(10, 6))
+plt.scatter(X, y, color='blue', label='Clean data', alpha=0.7)
+plt.scatter([0.1, 1.9], [15, -5], color='red', s=80, label='Outliers', zorder=5)
+plt.plot(X_line, y_clean_line, 'g--', label=f'Clean Fit: y = {theta_clean[0]:.2f} + {theta_clean[1]:.2f}x')
+plt.plot(X_line, y_noisy_line, 'r-', label=f'Noisy Fit: y = {theta_noisy[0]:.2f} + {theta_noisy[1]:.2f}x')
+plt.xlabel('X')
+plt.ylabel('y')
+plt.title('Outliers Drastically Affect Linear Regression')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.close()
+```
 ![Outliers Drastically Affect Linear Regression](/assets/images/outliers_effect.png){: width="80%"}
 
 > **Observation**: The two red points pull the regression line significantly, making it a poor fit for the majority of data.
 
 ---
 
-## 6. 🛠️ RANSAC: Robust Regression
+## 6. 🛠️ RANSAC: Robust Regression with Mathematical Foundation
+
+Ordinary Least Squares (OLS) regression is highly sensitive to outliers. **RANSAC (Random Sample Consensus)** is a robust algorithm that estimates model parameters by **iteratively fitting to random subsets** of inliers, making it ideal for noisy, real-world data.
+
+### 📐 Mathematical Foundation
+
+Given a model (e.g., a line: $y = \theta_0 + \theta_1 x$), RANSAC defines:
+
+- **Inlier**: A point $(x^{(i)}, y^{(i)})$ such that the residual (prediction error) is below a threshold $\delta$:
+  $$
+  |y^{(i)} - (\theta_0 + \theta_1 x^{(i)})| < \delta
+  $$
+
+- **Algorithm Steps**:
+  1. **Sample**: Randomly select a minimal subset (e.g., 2 points for a line).
+  2. **Fit**: Estimate model parameters using the subset (e.g., via Normal Equation).
+  3. **Count**: Identify all inliers within threshold $\delta$.
+  4. **Repeat**: Do this for $k$ iterations.
+  5. **Select**: Return the model with the **largest inlier set**.
+
+- **Optimal Number of Iterations $k$**:
+  $$
+  k = \frac{\log(1 - p)}{\log(1 - w^n)}
+  $$
+  where:
+  - $p$ = desired confidence (e.g., 0.99)
+  - $w$ = assumed fraction of inliers
+  - $n$ = minimal sample size (2 for line)
+
+This ensures a high probability of selecting at least one outlier-free sample.
+
+---
+
+### 💻 Implementation: From Scratch
+
+Here’s a simple implementation of RANSAC for linear regression:
+
+```python
+import numpy as np
+
+def ransac_linear_regression(X, y, n_samples=2, k_iterations=100, threshold=1.0):
+    best_model = None
+    best_inliers = None
+    max_inliers = 0
+    n_points = len(y)
+    
+    for _ in range(k_iterations):
+        # Step 1: Randomly sample minimal set
+        idx = np.random.choice(n_points, size=n_samples, replace=False)
+        X_sample = X[idx].reshape(-1, 1)
+        y_sample = y[idx]
+        
+        # Step 2: Fit model using Normal Equation
+        X_sample_b = np.c_[np.ones(X_sample.shape[0]), X_sample]
+        try:
+            model = np.linalg.solve(X_sample_b.T @ X_sample_b, X_sample_b.T @ y_sample)
+        except np.linalg.LinAlgError:
+            continue  # Skip if singular
+        
+        # Step 3: Predict and find inliers
+        y_pred = model[0] + model[1] * X
+        inliers = np.abs(y - y_pred) < threshold
+        
+        num_inliers = np.sum(inliers)
+        if num_inliers > max_inliers:
+            max_inliers = num_inliers
+            best_model = model
+            best_inliers = inliers
+    
+    return best_model, best_inliers
+
+# Example usage
+# model, inliers = ransac_linear_regression(X_data, y_data, threshold=2.0)
+```
 
 **RANSAC (Random Sample Consensus)** is an iterative algorithm that estimates parameters by fitting models to **random subsets** of data and selecting the one with the most inliers.
 
-### How RANSAC Works:
+### using scikit-learn (good for production)
+```python
+from sklearn.linear_model import RANSACRegressor, LinearRegression
 
-1. Randomly select a minimal subset (e.g., 2 points for line fitting).
-2. Fit a model to this subset.
-3. Count how many points are **inliers** (within a threshold distance).
-4. Repeat for a number of iterations.
-5. Return the model with the most inliers.
+# Define RANSAC with custom settings
+ransac = RANSACRegressor(
+    estimator=LinearRegression(),
+    min_samples=2,                # Minimal points to fit (2 for line)
+    residual_threshold=2.0,       # Max residual to be inlier
+    max_trials=100,               # Max iterations
+    stop_n_inliers=len(X)//2,     # Stop if half are inliers
+    random_state=42
+)
+
+# Fit model
+ransac.fit(X.reshape(-1, 1), y)
+
+# Get inlier mask
+inlier_mask = ransac.inlier_mask_
+outlier_mask = ~inlier_mask
+
+# Predict
+y_ransac = ransac.predict(X.reshape(-1, 1))
+```
 
 ### Advantages:
 - Robust to outliers
@@ -264,7 +566,7 @@ Outliers can severely distort linear regression models. Let's see how.
 
 ---
 
-### ✅ RANSAC Implementation and Visualization
+### ✅ RANSAC Visualization
 
 ![RANSAC: Inliers vs Outliers and Model Comparison](/assets/images/ransac_vs_ols.png){: width="80%"}
 
