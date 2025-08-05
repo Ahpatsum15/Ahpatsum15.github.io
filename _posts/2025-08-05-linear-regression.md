@@ -170,7 +170,6 @@ plt.legend()
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
-plt.close()
 ```
 ![Normal Equation vs Gradient Descent Time](/assets/images/normal_eq_vs_gd_time.png){: width="80%"}
 
@@ -241,8 +240,6 @@ annotate_bars(bars2)
 
 plt.tight_layout()
 plt.show()
-
-plt.close()
 ```
 ![Numerical Instability of Normal Equation](/assets/images/normal_eq_instability.png){: width="80%"}
 
@@ -412,7 +409,7 @@ plt.xlabel("Intercept (θ₀)")
 plt.ylabel("Slope (θ₁)")
 plt.legend()
 plt.tight_layout()
-plt.close()
+plt.show()
 ```
 ![BGD vs SGD Convergence](/assets/images/bgd_vs_sgd.png){: width="80%"}
 
@@ -450,7 +447,6 @@ plt.ylabel('y')
 plt.title('Outliers Drastically Affect Linear Regression')
 plt.legend()
 plt.grid(True, alpha=0.3)
-plt.close()
 ```
 ![Outliers Drastically Affect Linear Regression](/assets/images/outliers_effect.png){: width="80%"}
 
@@ -567,6 +563,7 @@ y_ransac = ransac.predict(X.reshape(-1, 1))
 ---
 
 ### ✅ RANSAC Visualization
+
 
 ![RANSAC: Inliers vs Outliers and Model Comparison](/assets/images/ransac_vs_ols.png){: width="80%"}
 
