@@ -39,7 +39,7 @@ title: Home
 <div class="section">
   <h2>Latest Blog Posts</h2>
   <ul class="post-list">
-    {% for post in site.posts limit:3 %}
+    {% for post in site.posts limit:2 %}
       <li>
         <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
         <h3>
@@ -52,4 +52,4 @@ title: Home
   </ul>
   <p><a href="/blog/">Read more posts &rarr;</a></p>
 </div>
--->
+
