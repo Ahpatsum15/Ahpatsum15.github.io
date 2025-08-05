@@ -8,6 +8,8 @@ tags:
   - obsidian
   - note-taking
 ---
+# Why you should use obsidian note? 
+
 > *“Your mind is for having ideas, not holding them.”* – David Allen
 
 Over the years, I’ve tried many note-taking apps: Evernote, OneNote, Notion, Google Keep... But none of them gave me the level of **control**, **flexibility**, and **ownership** that I found with **Obsidian**.
@@ -23,8 +25,8 @@ When I started managing multiple technical projects, learning paths, and persona
 - I didn’t want to rely on proprietary formats or platforms.
 
 That’s when I discovered Obsidian.
+  Obsidian stores everything in **plain Markdown files**. That means:
 
-	Obsidian stores everything in **plain Markdown files**. That means:
 - Your notes are yours forever.
 - They’re portable, version-controllable (with Git), and future-proof.
 
@@ -75,7 +77,7 @@ Even though Obsidian is local-first, they offer an optional sync service (paid).
 
 ## 🧠 Further links 
 
-For further information, you can refer to a lot of videos out there, my favourite is this one [Obsidian: The King of Learning Tools ][https://www.youtube.com/watch?v=hSTy_BInQs8&t=5s&ab_channel=Odysseas]
+For further information, you can refer to a lot of videos out there, my favourite is this one [Obsidian: The King of Learning Tools](https://www.youtube.com/watch?v=hSTy_BInQs8&t=5s&ab_channel=Odysseas)
 
 
 Mustapha EL BOUAZAOUI.
