@@ -5,12 +5,21 @@
   align-items: center;
   margin-bottom: 40px;
   gap: 30px; // Adds space between image and text
+  text-align: center;
   .profile-image {
     width: 150px;
     height: 150px;
     border-radius: 50%;
     object-fit: cover; // Ensures image covers the area nicely
     border: 3px solid $border-color;
+    display: block;
+    margin: 0 auto;
+  }
+  .image-caption{
+    font-size: italic;
+    margin-top: 10px;
+    color: #555;
+    font-size: 0.9em;
   }
   .hero-content {
     flex: 1;
