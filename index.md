@@ -18,7 +18,6 @@ title: Home
       <a href="{{ '/assets/files/Mustapha_CV.pdf' | relative_url }}" class="btn btn-outline" target="_blank">Download CV</a>
     </div>
   </div>
-</div>
 
 <div class="section">
   <h2>Featured Projects and blog</h2>
