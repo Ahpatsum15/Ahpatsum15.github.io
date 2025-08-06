@@ -7,6 +7,7 @@ title: Home
 <div class="hero">
   <img src="{{ '/assets/images/profile.jpg' | relative_url }}" alt="Mustapha El Bouazaoui" class="profile-image">
   <p class="image-caption">Simon Baker(Patrick Jane) from The Mentalist</p>
+  </div>
   <div class="hero-content">
     <h1>Hi, I'm Mustapha El Bouazaoui</h1>
     <p class="subtitle">Cybersecurity and Telecom Engineer & Math Enthusiast</p>
