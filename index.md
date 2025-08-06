@@ -4,9 +4,10 @@ layout: default
 title: Home
 ---
 
-<div class="hero">
-  <img src="{{ '/assets/images/profile.jpg' | relative_url }}" alt="Mustapha El Bouazaoui" class="profile-image"><br>
+<div class="profile-container">
+  <img src="{{ '/assets/images/profile.jpg' | relative_url }}" alt="Simon Baker" class="profile-image">
   <p class="image-caption">Simon Baker(Patrick Jane) from The Mentalist</p>
+  </div>
   <div class="hero-content">
     <h1>Hi, I'm Mustapha El Bouazaoui</h1>
     <p class="subtitle">Cybersecurity and Telecom Engineer & Math Enthusiast</p>
@@ -17,7 +18,6 @@ title: Home
       <a href="{{ '/assets/files/Mustapha_CV.pdf' | relative_url }}" class="btn btn-outline" target="_blank">Download CV</a>
     </div>
   </div>
-</div>
 
 <div class="section">
   <h2>Featured Projects and blog</h2>
