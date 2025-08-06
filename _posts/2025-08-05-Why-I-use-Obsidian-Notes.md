@@ -30,6 +30,13 @@ That’s when I discovered Obsidian.
 - Your notes are yours forever.
 - They’re portable, version-controllable (with Git), and future-proof.
 
+<p style="text-align: center;"> 
+  <img src="{{ '/assets/images/obsidian-logo.png' | relative_url }}" alt="Obsidian Logo" style="width: 100px; height: auto;"> 
+  <br>
+  <a href="https://obsidian.md/" target="_blank">Download Obsidian</a>
+</p>
+
+
 ---
 ## 📓 A Quick Guide to Markdown
 
