@@ -15,7 +15,7 @@ title: Home
     <div class="cta-buttons">
       <a href="{{ '/about/' | relative_url }}" class="btn btn-primary">About Me</a>
       <a href="{{ '/projects/' | relative_url }}" class="btn btn-secondary">View Projects</a>
-      <a href="{{ '/assets/files/Mustapha_CV.pdf' | relative_url }}" class="btn btn-outline" target="_blank">Download CV</a>
+      <a href="{{ '/assets/files/CV_mustapha_el bouazaoui_cyber.pdf' | relative_url }}" class="btn btn-outline" target="_blank">Download CV</a>
     </div>
   </div>
 
