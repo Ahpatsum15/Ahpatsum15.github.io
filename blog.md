@@ -13,7 +13,7 @@ permalink: /blog/
   <h2>Categories</h2>
 
   <div class="category">
-    <h3>🧠 Productivity</h3>
+    <h3> Productivity</h3>
     <ul>
       {% for post in site.categories.Productivity %}
         <li>
@@ -25,7 +25,7 @@ permalink: /blog/
   </div>
 
   <div class="category">
-    <h3>💻 Competitive Programming (Coming Soon)</h3>
+    <h3> Competitive Programming (Coming Soon)</h3>
     <p>Exploring algorithms, data structures, and problem-solving techniques.</p>
     <ul>
       <li><em>Posts coming soon...</em></li>
@@ -33,7 +33,7 @@ permalink: /blog/
   </div>
 
   <div class="category">
-    <h3>🤖 Machine Learning </h3>
+    <h3> Machine Learning </h3>
     <p>Insights into ML concepts, projects, and learning resources.</p>
     <ul>
       {% for post in site.categories.Machine-learning %}
@@ -46,7 +46,7 @@ permalink: /blog/
   </div>
 
   <div class="category">
-    <h3>🔐 Cryptography (Coming Soon)</h3>
+    <h3> Cryptography (Coming Soon)</h3>
     <p>Notes on cryptographic concepts, tools, and research.</p>
     <ul>
       <li><em>Posts coming soon...</em></li>
