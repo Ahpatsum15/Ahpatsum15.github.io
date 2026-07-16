@@ -40,4 +40,4 @@ permalink: /about/
     <li><strong>Chinese:</strong> Basic</li>
 </ul>
 
-<p><a href="{{ '/assets/files/CV_mustapha_el bouazaoui_cyber.pdf' | relative_url }}" class="btn btn-primary" target="_blank">📄 Download my CV (PDF)</a></p>
+<p><a href="{{ '/assets/files/CV_mustapha_el bouazaoui_main.pdf' | relative_url }}" class="btn btn-primary" target="_blank">📄 Download my CV (PDF)</a></p>
