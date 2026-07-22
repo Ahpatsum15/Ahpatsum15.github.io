@@ -46,6 +46,18 @@ permalink: /blog/
   </div>
 
   <div class="category">
+    <h3>DevSecOps</h3>
+    <ul>
+      {% for post in site.categories.devops %}
+        <li>
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  
+  <div class="category">
     <h3> Cryptography (Coming Soon)</h3>
     <p>Notes on cryptographic concepts, tools, and research.</p>
     <ul>

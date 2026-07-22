@@ -1,0 +1,690 @@
+<!-- _layouts/default.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    },
+    processEscapes: true
+  };
+  </script>
+  <!-- _includes/head.html -->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"> <!-- Add a favicon.ico to assets/images/ -->
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Comprehensive Guide to Linear Regression: From Theory to Robust Estimation | My Portfolio</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Comprehensive Guide to Linear Regression: From Theory to Robust Estimation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Linear Regression: Foundations, Optimization, and Robust Estimation" />
+<meta property="og:description" content="Linear Regression: Foundations, Optimization, and Robust Estimation" />
+<link rel="canonical" href="http://localhost:4000/machine-learning/2025/08/05/linear-regression.html" />
+<meta property="og:url" content="http://localhost:4000/machine-learning/2025/08/05/linear-regression.html" />
+<meta property="og:site_name" content="My Portfolio" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-08-05T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Comprehensive Guide to Linear Regression: From Theory to Robust Estimation" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-08-05T00:00:00+01:00","datePublished":"2025-08-05T00:00:00+01:00","description":"Linear Regression: Foundations, Optimization, and Robust Estimation","headline":"Comprehensive Guide to Linear Regression: From Theory to Robust Estimation","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/machine-learning/2025/08/05/linear-regression.html"},"url":"http://localhost:4000/machine-learning/2025/08/05/linear-regression.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="My Portfolio" />
+</head>
+
+  <body>
+
+    <!-- _includes/header.html -->
+<header class="site-header">
+  <div class="wrapper">
+    <a class="site-title" href="/">My Portfolio</a>
+    <nav class="site-nav">
+      <a href="/">Home</a>
+      <a href="/about/">About</a>
+      <a href="/projects/">Projects</a>
+      <a href="/blog/">Blog</a> 
+      
+      <a href="/contact/">Contact</a>
+    </nav>
+  </div>
+</header>
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h1 id="linear-regression-foundations-optimization-and-robust-estimation">Linear Regression: Foundations, Optimization, and Robust Estimation</h1>
+
+<blockquote>
+  <p><strong>Author</strong>: Mustapha EL BOUAZAOUI <br />
+<strong>Tags</strong>: Machine Learning, Linear Regression, Optimization, RANSAC, Outliers, Gradient Descent, Normal Equation</p>
+</blockquote>
+
+<p>Linear regression serves as a cornerstone of statistical modeling and supervised machine learning. By establishing a functional relationship between a dependent variable and one or more independent variables, it provides a powerful framework for both prediction and inference. While the concept is conceptually straightforward, a rigorous understanding of its mathematical foundations, optimization techniques, and robust extensions is vital for addressing the complexities of real-world data.</p>
+
+<p>In this article, we provide a comprehensive analysis of the following:</p>
+<ul>
+  <li>The <strong>mathematical framework</strong> underlying linear regression.</li>
+  <li>The <strong>Normal Equation</strong>: A closed-form solution, its derivation, and its practical limitations.</li>
+  <li>A <strong>probabilistic perspective</strong> through Maximum Likelihood Estimation (MLE).</li>
+  <li><strong>Optimization strategies</strong>: Comparing Batch and Stochastic Gradient Descent.</li>
+  <li>Addressing <strong>data anomalies</strong>: Robust fitting using the RANSAC (Random Sample Consensus) algorithm.</li>
+  <li>Detailed <strong>Python implementations</strong> and comparative visualizations.</li>
+</ul>
+
+<hr />
+
+<h2 id="1-mathematical-foundation-of-linear-regression">1. Mathematical Foundation of Linear Regression</h2>
+
+<h3 id="problem-setup">Problem Setup</h3>
+
+<p>Given a dataset of $ n $ observations:<br />
+\(\{(x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \dots, (x^{(n)}, y^{(n)})\}\)
+where $ x^{(i)} \in \mathbb{R}^d $ represents the feature vector and $ y^{(i)} \in \mathbb{R} $ is the target variable, our objective is to learn a linear mapping:</p>
+
+\[\hat{y} = \theta_0 + \theta_1 x_1 + \theta_2 x_2 + \dots + \theta_d x_d = \theta^T x\]
+
+<p>To evaluate the model’s performance, we employ the <strong>Mean Squared Error (MSE)</strong> cost function:</p>
+
+\[J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (\hat{y}^{(i)} - y^{(i)})^2\]
+
+<p>The goal of the learning process is to identify the parameter vector $ \theta $ that minimizes $ J(\theta) $.</p>
+
+<hr />
+
+<h2 id="2-probabilistic-interpretation-maximum-likelihood-estimation">2. Probabilistic Interpretation: Maximum Likelihood Estimation</h2>
+
+<p>Assume the underlying data-generating process follows the form:</p>
+
+\[y^{(i)} = \theta^T x^{(i)} + \epsilon^{(i)}, \quad \epsilon^{(i)} \sim \mathcal{N}(0, \sigma^2)\]
+
+<p>In this model, the target $y^{(i)}$ is composed of a deterministic linear component and an additive <strong>Gaussian noise</strong> term. This assumption is frequently justified by the Central Limit Theorem, which suggests that the sum of many independent random errors tends toward a normal distribution.</p>
+
+<p>Under this assumption, the conditional probability of $y^{(i)}$ is given by:</p>
+
+\[P(y^{(i)} | x^{(i)}; \theta) = \frac{1}{\sqrt{2\pi}\sigma} \exp\left(-\frac{(y^{(i)} - \theta^T x^{(i)})^2}{2\sigma^2}\right)\]
+
+<p>For an independently and identically distributed (IID) dataset, the <strong>likelihood</strong> function is the product of the individual densities:</p>
+
+\[\mathcal{L}(\theta) = \prod_{i=1}^{m} P(y^{(i)} | x^{(i)}; \theta)\]
+
+<p>The <strong>log-likelihood</strong> simplifies this expression for optimization:</p>
+
+\[\log \mathcal{L}(\theta) = -\frac{m}{2} \log(2\pi) - m \log \sigma - \frac{1}{2\sigma^2} \sum_{i=1}^{m} (y^{(i)} - \theta^T x^{(i)})^2\]
+
+<p>Maximizing the log-likelihood with respect to $\theta$ is mathematically equivalent to minimizing the sum of squared residuals:</p>
+
+\[\sum_{i=1}^{m} (y^{(i)} - \theta^T x^{(i)})^2\]
+
+<p>This derivation provides a rigorous <strong>statistical justification</strong> for the use of Mean Squared Error in linear regression models.</p>
+
+<hr />
+
+<h2 id="3-optimization-gradient-descent">3. Optimization: Gradient Descent</h2>
+
+<p>To minimize the cost function $ J(\theta) $, we typically employ gradient descent, an iterative optimization algorithm:</p>
+
+\[\theta := \theta - \alpha \nabla_\theta J(\theta)\]
+
+<p>The method by which we compute the gradient defines the specific variant of the algorithm.</p>
+
+<hr />
+
+<h3 id="batch-gradient-descent-bgd">Batch Gradient Descent (BGD)</h3>
+
+<p>Batch Gradient Descent utilizes the <strong>entire dataset</strong> to compute the gradient at each iteration.</p>
+
+\[\nabla_\theta J(\theta) = \frac{1}{m} \sum_{i=1}^{m} (\theta^T x^{(i)} - y^{(i)}) x^{(i)}\]
+
+<p><strong>Advantages:</strong></p>
+<ul>
+  <li>Guarantees convergence to the global minimum for convex surfaces.</li>
+  <li>Provides a stable and direct path toward the optimal solution.</li>
+</ul>
+
+<p><strong>Disadvantages:</strong></p>
+<ul>
+  <li>Computationally expensive for very large datasets as the entire matrix must be processed per step.</li>
+  <li>Higher memory requirements.</li>
+</ul>
+
+<h3 id="stochastic-gradient-descent-sgd">Stochastic Gradient Descent (SGD)</h3>
+
+<p>In contrast, Stochastic Gradient Descent updates the model parameters using <strong>one sample at a time</strong>.</p>
+
+<p>For each observation $ (x^{(i)}, y^{(i)}) $:
+\(\theta := \theta - \alpha (\theta^T x^{(i)} - y^{(i)}) x^{(i)}\)</p>
+
+<p><strong>Advantages:</strong></p>
+<ul>
+  <li>Significant reduction in computational cost per iteration.</li>
+  <li>The inherent noise in updates can help the model escape shallow local minima in more complex cost surfaces.</li>
+  <li>Enables online learning where the model is updated as new data arrives.</li>
+</ul>
+
+<p><strong>Disadvantages:</strong></p>
+<ul>
+  <li>The parameter trajectory is stochastic (noisy) and may fluctuate around the minimum rather than converging exactly.</li>
+</ul>
+
+<hr />
+
+<h3 id="visualization-bgd-vs-sgd-convergence">Visualization: BGD vs SGD Convergence</h3>
+
+<p>The following implementation demonstrates the convergence behavior of both methods on a synthetic dataset.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="c1"># Set random seed for reproducibility
+</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">X</span><span class="p">.</span><span class="n">squeeze</span><span class="p">()</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">X_b</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">batch_gradient_descent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">n_iters</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">theta_path</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iters</span><span class="p">):</span>
+        <span class="n">gradients</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">.</span><span class="n">T</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">gradients</span>
+        <span class="n">theta_path</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">theta</span><span class="p">.</span><span class="n">copy</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">theta_path</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">stochastic_gradient_descent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">theta_path</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+            <span class="n">xi</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">yi</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">].</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">gradients</span> <span class="o">=</span> <span class="n">xi</span><span class="p">.</span><span class="n">T</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">xi</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="n">yi</span><span class="p">)</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">gradients</span>
+            <span class="n">theta_path</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">theta</span><span class="p">.</span><span class="n">copy</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">theta_path</span><span class="p">)</span>
+
+<span class="n">theta_bgd_path</span> <span class="o">=</span> <span class="n">batch_gradient_descent</span><span class="p">(</span><span class="n">X_b</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">theta_sgd_path</span> <span class="o">=</span> <span class="n">stochastic_gradient_descent</span><span class="p">(</span><span class="n">X_b</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">bgd_thetas</span> <span class="o">=</span> <span class="n">theta_bgd_path</span><span class="p">.</span><span class="n">squeeze</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bgd_thetas</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">bgd_thetas</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s">'b-s'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'BGD'</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Batch Gradient Descent Path"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Intercept (θ₀)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Slope (θ₁)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">sgd_thetas</span> <span class="o">=</span> <span class="n">theta_sgd_path</span><span class="p">.</span><span class="n">squeeze</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sgd_thetas</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sgd_thetas</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s">'r-o'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'SGD'</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Stochastic Gradient Descent Path"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Intercept (θ₀)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Slope (θ₁)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="/assets/images/bgd_vs_sgd.png" alt="BGD vs SGD Convergence" width="80%" /></p>
+
+<p><strong>Analysis</strong>: BGD follows a smooth, deterministic path toward the minimum, whereas SGD exhibits more erratic behavior. However, SGD’s ability to process single samples makes it far more scalable for massive datasets.</p>
+
+<hr />
+
+<h2 id="4-the-normal-equation-closed-form-solution">4. The Normal Equation: Closed-Form Solution</h2>
+
+<p>While iterative methods are robust, linear regression admits an analytical solution known as the <strong>Normal Equation</strong>.</p>
+
+<p>Given a design matrix $ X \in \mathbb{R}^{m \times n} $ and a target vector $ y \in \mathbb{R}^m $, the optimal parameter vector $ \theta $ can be calculated as:</p>
+
+\[\theta = (X^T X)^{-1} X^T y\]
+
+<p>This equation provides the global minimum of the least-squares objective function in a single step.</p>
+
+<h3 id="derivation-summary">Derivation Summary</h3>
+
+<p>We aim to minimize the residual sum of squares: $ J(\theta) = \frac{1}{2m}(X\theta - y)^T(X\theta - y) $. Setting the matrix derivative with respect to $\theta$ to zero:</p>
+
+\[\nabla_\theta J(\theta) = \frac{1}{m} X^T(X\theta - y) = 0
+\Rightarrow X^T X \theta = X^T y
+\Rightarrow \theta = (X^T X)^{-1} X^T y\]
+
+<h3 id="probabilistic-context">Probabilistic Context</h3>
+
+<p>As established in Section 2, the <strong>Maximum Likelihood Estimate (MLE)</strong> under the assumption of independent Gaussian noise is precisely the solution provided by the Normal Equation:</p>
+
+\[\hat{\theta}_{\text{MLE}} = (X^T X)^{-1} X^T y\]
+
+<p>This reinforces that the least-squares approach is not merely a heuristic but is statistically optimal when errors are normally distributed.</p>
+
+<hr />
+
+<h3 id="limitations-of-the-normal-equation">Limitations of the Normal Equation</h3>
+
+<p>Despite its efficiency for small datasets, the Normal Equation has significant computational drawbacks:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Challenge</th>
+      <th>Impact</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Computational Complexity</strong></td>
+      <td>Inverting $X^T X$ is $O(n^3)$. This becomes prohibitive as the number of features $n$ grows.</td>
+    </tr>
+    <tr>
+      <td><strong>Memory Capacity</strong></td>
+      <td>Storing the $n \times n$ matrix $X^T X$ can exceed available RAM for high-dimensional data.</td>
+    </tr>
+    <tr>
+      <td><strong>Numerical Instability</strong></td>
+      <td>If $X^T X$ is singular (non-invertible due to multicollinearity), the equation fails.</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 id="feature-scaling-and-runtime-performance">Feature Scaling and Runtime Performance</h3>
+
+<p>We can visualize the performance disparity between the Normal Equation and Gradient Descent as dimensionality increases.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">normal_equation_time</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">solve</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="k">def</span> <span class="nf">stochastic_gradient_descent_time</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="n">shape</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">):</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">:</span>
+            <span class="n">xi</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">yi</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">gradients</span> <span class="o">=</span> <span class="n">xi</span><span class="p">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">xi</span> <span class="o">@</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">yi</span><span class="p">)</span>
+            <span class="n">theta</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">gradients</span>
+    <span class="k">return</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">feature_dims</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2100</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span> <span class="o">+</span> <span class="p">[</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">3500</span><span class="p">,</span> <span class="mi">4000</span><span class="p">]</span>
+<span class="n">ne_times</span><span class="p">,</span> <span class="n">sgd_times</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">n_features</span> <span class="ow">in</span> <span class="n">feature_dims</span><span class="p">:</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+    <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:].</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:].</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+
+    <span class="n">ne_times</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">normal_equation_time</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+    <span class="n">sgd_times</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">stochastic_gradient_descent_time</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">feature_dims</span><span class="p">,</span> <span class="n">ne_times</span><span class="p">,</span> <span class="s">'o-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Normal Equation'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">feature_dims</span><span class="p">,</span> <span class="n">sgd_times</span><span class="p">,</span> <span class="s">'s-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'SGD (10 epochs)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Number of Features'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Time (seconds)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Computation Complexity: Normal Equation vs SGD'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="/assets/images/normal_eq_vs_gd_time.png" alt="Normal Equation vs Gradient Descent Time" width="80%" /></p>
+
+<p><strong>Observation</strong>: The cubic growth of the Normal Equation’s runtime makes it unsuitable for high-dimensional feature spaces where SGD maintains linear scalability.</p>
+
+<hr />
+
+<h3 id="numerical-instability-with-correlated-features">Numerical Instability with Correlated Features</h3>
+
+<p>When features are highly correlated, $ X^T X $ becomes ill-conditioned, leading to unstable solutions.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># Generate correlated features
+</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>  <span class="c1"># Highly correlated with x1
+</span>
+<span class="n">X_corr</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_samples</span><span class="p">),</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+
+<span class="c1"># Compute theta using np.linalg.lstsq (more stable)
+</span><span class="n">theta_exact</span><span class="p">,</span> <span class="n">residuals</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">X_corr</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+<span class="c1"># Perturb X and recompute theta
+</span><span class="n">X_perturbed</span> <span class="o">=</span> <span class="n">X_corr</span> <span class="o">+</span> <span class="mf">0.001</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">X_corr</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">theta_perturbed</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">X_perturbed</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+<span class="c1"># Print results
+</span><span class="k">print</span><span class="p">(</span><span class="s">"Exact solution:"</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="nb">round</span><span class="p">(</span><span class="n">theta_exact</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Perturbed solution:"</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="nb">round</span><span class="p">(</span><span class="n">theta_perturbed</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Difference norm:"</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">norm</span><span class="p">(</span><span class="n">theta_exact</span> <span class="o">-</span> <span class="n">theta_perturbed</span><span class="p">))</span>
+
+<span class="c1"># Plot
+</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">'θ₀ (bias)'</span><span class="p">,</span> <span class="s">'θ₁ (x₁)'</span><span class="p">,</span> <span class="s">'θ₂ (x₂)'</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
+<span class="n">width</span> <span class="o">=</span> <span class="mf">0.35</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">bars1</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">theta_exact</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Original Data'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'skyblue'</span><span class="p">)</span>
+<span class="n">bars2</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">theta_perturbed</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Perturbed Data'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'salmon'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'gray'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">'--'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Parameter'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Coefficient Value'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Normal Equation Sensitivity: Correlated Features &amp; Small Noise'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s">'y'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># Annotate bars with their heights
+</span><span class="k">def</span> <span class="nf">annotate_bars</span><span class="p">(</span><span class="n">bars</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">bar</span> <span class="ow">in</span> <span class="n">bars</span><span class="p">:</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="n">bar</span><span class="p">.</span><span class="n">get_height</span><span class="p">()</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">height</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s">'</span><span class="p">,</span>
+                     <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">bar</span><span class="p">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">+</span> <span class="n">bar</span><span class="p">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span>
+                     <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>  <span class="c1"># 5 points vertical offset
+</span>                     <span class="n">textcoords</span><span class="o">=</span><span class="s">"offset points"</span><span class="p">,</span>
+                     <span class="n">ha</span><span class="o">=</span><span class="s">'center'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s">'bottom'</span><span class="p">,</span>
+                     <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="n">annotate_bars</span><span class="p">(</span><span class="n">bars1</span><span class="p">)</span>
+<span class="n">annotate_bars</span><span class="p">(</span><span class="n">bars2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="/assets/images/normal_eq_instability.png" alt="Numerical Instability of Normal Equation" width="80%" /></p>
+
+<p><strong>Observation</strong>: Tiny changes in data cause large swings in parameters — a sign of <strong>numerical instability</strong> due to multicollinearity.</p>
+
+<hr />
+
+<h3 id="when-to-use-the-normal-equation">When to Use the Normal Equation?</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Use Normal Equation When:</th>
+      <th>Use Gradient Descent Instead When:</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$ n &lt; 1000 $ features</td>
+      <td>$ n &gt; 10,000 $ features</td>
+    </tr>
+    <tr>
+      <td>You need an <strong>exact solution</strong></td>
+      <td>You want <strong>online/iterative</strong> learning</td>
+    </tr>
+    <tr>
+      <td>Dataset fits in memory</td>
+      <td>Dataset is too large for $ X^T X $</td>
+    </tr>
+    <tr>
+      <td>No multicollinearity</td>
+      <td>Features are correlated or redundant</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Note</strong>: <code class="language-plaintext highlighter-rouge">scikit-learn</code>’s <code class="language-plaintext highlighter-rouge">LinearRegression()</code> uses <strong>SVD-based solvers</strong> (like <code class="language-plaintext highlighter-rouge">np.linalg.lstsq</code>) instead of direct inversion to avoid instability.</p>
+
+<hr />
+<h2 id="5-the-challenge-of-outliers">5. The Challenge of Outliers</h2>
+
+<p>One of the primary weaknesses of Ordinary Least Squares is its lack of robustness to outliers. Because the loss function squares the residuals, observations far from the general trend exert a disproportionate influence on the fitted model.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="n">X_outlier</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.9</span><span class="p">]])</span>
+<span class="n">y_outlier</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">X_outlier_b</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">102</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X_outlier</span><span class="p">]</span>
+
+<span class="n">theta_clean</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X_b</span><span class="p">.</span><span class="n">T</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_b</span><span class="p">)).</span><span class="n">dot</span><span class="p">(</span><span class="n">X_b</span><span class="p">.</span><span class="n">T</span><span class="p">).</span><span class="n">dot</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">theta_noisy</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X_outlier_b</span><span class="p">.</span><span class="n">T</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_outlier_b</span><span class="p">)).</span><span class="n">dot</span><span class="p">(</span><span class="n">X_outlier_b</span><span class="p">.</span><span class="n">T</span><span class="p">).</span><span class="n">dot</span><span class="p">(</span><span class="n">y_outlier</span><span class="p">)</span>
+
+<span class="n">X_line</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y_clean_line</span> <span class="o">=</span> <span class="n">theta_clean</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">theta_clean</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">X_line</span>
+<span class="n">y_noisy_line</span> <span class="o">=</span> <span class="n">theta_noisy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">theta_noisy</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">X_line</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'blue'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Inliers'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">],</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">'red'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Outliers'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_line</span><span class="p">,</span> <span class="n">y_clean_line</span><span class="p">,</span> <span class="s">'g--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Fit on Clean Data'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_line</span><span class="p">,</span> <span class="n">y_noisy_line</span><span class="p">,</span> <span class="s">'r-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Fit on Noisy Data'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Impact of Outliers on OLS Estimation'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+</code></pre></div></div>
+<p><img src="/assets/images/outliers_effect.png" alt="Outliers Drastically Affect Linear Regression" width="80%" /></p>
+
+<p>Even a small number of severe outliers can significantly tilt the regression line, leading to poor generalization.</p>
+
+<hr />
+
+<h2 id="6-ransac-robust-regression-via-consensus">6. RANSAC: Robust Regression via Consensus</h2>
+
+<p>To mitigate the influence of outliers, we can use <strong>RANSAC (Random Sample Consensus)</strong>. RANSAC is a non-deterministic algorithm that estimates parameters by consensus among a subset of the data.</p>
+
+<h3 id="theoretical-foundation">Theoretical Foundation</h3>
+
+<p>RANSAC operates on the assumption that the data contains “inliers” (data consistent with a model) and “outliers” (noise or erroneous data).</p>
+
+<p><strong>The Algorithm:</strong></p>
+<ol>
+  <li><strong>Selection</strong>: Randomly select a minimal set of data points (e.g., two for a line).</li>
+  <li><strong>Estimation</strong>: Fit a model to this minimal subset.</li>
+  <li><strong>Consensus</strong>: Calculate how many points in the entire dataset fall within a distance threshold $\delta$ of this model. These are the inliers.</li>
+  <li><strong>Iteration</strong>: Repeat the process for $k$ trials.</li>
+  <li><strong>Final Model</strong>: Retain the model with the largest consensus (most inliers).</li>
+</ol>
+
+<p>The number of iterations $k$ required to guarantee a successful fit with probability $p$ is:
+\(k = \frac{\log(1 - p)}{\log(1 - w^n)}\)
+where $w$ is the expected fraction of inliers and $n$ is the number of points in the minimal subset.</p>
+
+<hr />
+
+<h3 id="implementation-with-scikit-learn">Implementation with Scikit-Learn</h3>
+
+<p>While RANSAC can be implemented from scratch, <code class="language-plaintext highlighter-rouge">scikit-learn</code> provides a robust and optimized implementation.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="k">def</span> <span class="nf">ransac_linear_regression</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">k_iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="n">best_model</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">best_inliers</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">max_inliers</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">n_points</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k_iterations</span><span class="p">):</span>
+        <span class="c1"># Step 1: Randomly sample minimal set
+</span>        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n_points</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">X_sample</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">y_sample</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        
+        <span class="c1"># Step 2: Fit model using Normal Equation
+</span>        <span class="n">X_sample_b</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">X_sample</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">X_sample</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">solve</span><span class="p">(</span><span class="n">X_sample_b</span><span class="p">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X_sample_b</span><span class="p">,</span> <span class="n">X_sample_b</span><span class="p">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y_sample</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">LinAlgError</span><span class="p">:</span>
+            <span class="k">continue</span>  <span class="c1"># Skip if singular
+</span>        
+        <span class="c1"># Step 3: Predict and find inliers
+</span>        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">model</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">X</span>
+        <span class="n">inliers</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span>
+        
+        <span class="n">num_inliers</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">inliers</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num_inliers</span> <span class="o">&gt;</span> <span class="n">max_inliers</span><span class="p">:</span>
+            <span class="n">max_inliers</span> <span class="o">=</span> <span class="n">num_inliers</span>
+            <span class="n">best_model</span> <span class="o">=</span> <span class="n">model</span>
+            <span class="n">best_inliers</span> <span class="o">=</span> <span class="n">inliers</span>
+    
+    <span class="k">return</span> <span class="n">best_model</span><span class="p">,</span> <span class="n">best_inliers</span>
+
+<span class="c1"># Example usage
+# model, inliers = ransac_linear_regression(X_data, y_data, threshold=2.0)
+</span></code></pre></div></div>
+
+<p><strong>RANSAC (Random Sample Consensus)</strong> is an iterative algorithm that estimates parameters by fitting models to <strong>random subsets</strong> of data and selecting the one with the most inliers.</p>
+
+<h3 id="using-scikit-learn-good-for-production">using scikit-learn (good for production)</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">RANSACRegressor</span><span class="p">,</span> <span class="n">LinearRegression</span>
+
+<span class="c1"># Define RANSAC with custom settings
+</span><span class="n">ransac</span> <span class="o">=</span> <span class="n">RANSACRegressor</span><span class="p">(</span>
+    <span class="n">estimator</span><span class="o">=</span><span class="n">LinearRegression</span><span class="p">(),</span>
+    <span class="n">min_samples</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>                <span class="c1"># Minimal points to fit (2 for line)
+</span>    <span class="n">residual_threshold</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>       <span class="c1"># Max residual to be inlier
+</span>    <span class="n">max_trials</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>               <span class="c1"># Max iterations
+</span>    <span class="n">stop_n_inliers</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span>     <span class="c1"># Stop if half are inliers
+</span>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="c1"># Fit model
+</span><span class="n">ransac</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Get inlier mask
+</span><span class="n">inlier_mask</span> <span class="o">=</span> <span class="n">ransac</span><span class="p">.</span><span class="n">inlier_mask_</span>
+<span class="n">outlier_mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">inlier_mask</span>
+
+<span class="c1"># Predict
+</span><span class="n">y_ransac</span> <span class="o">=</span> <span class="n">ransac</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h3 id="advantages-of-ransac">Advantages of RANSAC:</h3>
+<ul>
+  <li>Highly robust to noise and extreme outliers.</li>
+  <li>Effective even when outliers constitute a significant portion (up to 50%) of the dataset.</li>
+</ul>
+
+<hr />
+
+<h3 id="ransac-visualization">RANSAC Visualization</h3>
+
+<p><img src="/assets/images/ransac_vs_ols.png" alt="RANSAC: Inliers vs Outliers and Model Comparison" width="80%" /></p>
+
+<p><strong>Insight</strong>: RANSAC successfully ignores outliers and recovers a line close to the true underlying model.</p>
+
+<hr />
+
+<h2 id="7-comparative-summary">7. Comparative Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Best Use Case</th>
+      <th>Key Limitation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Normal Equation</strong></td>
+      <td>Small datasets with few features</td>
+      <td>Scales poorly with dimensionality ($O(n^3)$)</td>
+    </tr>
+    <tr>
+      <td><strong>Batch GD</strong></td>
+      <td>Small to medium datasets</td>
+      <td>Can be slow on very large data</td>
+    </tr>
+    <tr>
+      <td><strong>Stochastic GD</strong></td>
+      <td>Large scale or streaming data</td>
+      <td>Trajectory is noisy; approximate convergence</td>
+    </tr>
+    <tr>
+      <td><strong>RANSAC</strong></td>
+      <td>Datasets with high outlier contamination</td>
+      <td>Increased computational overhead per trial</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="8-conclusion">8. Conclusion</h2>
+
+<p>Linear regression remains a foundational tool in the data scientist’s arsenal. By moving beyond simple line-fitting and understanding the <strong>probabilistic underpinnings</strong>, <strong>optimization trade-offs</strong>, and <strong>robustness techniques</strong>, one can build models that are both accurate across clean data and resilient in the presence of noise.</p>
+
+<p>Key Takeaways:</p>
+<ul>
+  <li><strong>Optimization</strong>: Choose between exact solutions (Normal Equation) and scalable approximations (SGD) based on data volume.</li>
+  <li><strong>Robustness</strong>: Always assess data for outliers and consider consensus-based methods like RANSAC when necessary.</li>
+  <li><strong>Statistical Fidelity</strong>: Recall that minimizing MSE is equivalent to maximum likelihood estimation under Gaussian assumptions.</li>
+</ul>
+
+<hr />
+
+<h2 id="code-and-resources">Code and Resources</h2>
+
+<p>Additional implementation details and figure generation scripts can be found here:</p>
+<ul>
+  <li>Full Python implementation: <a href="https://github.com/Ahpatsum15/Ahpatsum15.github.io/blob/main/assets/linear_regression.py">linear_regression_analysis.py</a></li>
+  <li>Visualization assets: <code class="language-plaintext highlighter-rouge">assets/images/</code></li>
+</ul>
+
+<hr />
+
+<h2 id="references">References</h2>
+
+<ul>
+  <li>Bishop, C. M. (2006). <em>Pattern Recognition and Machine Learning</em>. Springer.</li>
+  <li>Goodfellow, I., Bengio, Y., &amp; Courville, A. (2016). <em>Deep Learning</em>. MIT Press.</li>
+  <li>Scikit-learn Documentation: <a href="https://scikit-learn.org/stable/modules/linear_model.html#robust-regression-outliers-and-modeling-errors">Robust Regression Models</a>.</li>
+  <li>Andrew Ng’s Machine Learning Course CSS229</li>
+</ul>
+
+      </div>
+    </main>
+
+    <!-- _includes/footer.html -->
+<footer class="site-footer">
+  <div class="wrapper">
+    <p>&copy; 2026 M. EL BOUAZAOUI. All rights reserved.</p>
+    <div class="social-links">
+      
+        <a href="https://www.linkedin.com/in/elbouazaouimustapha" target="_blank">LinkedIn</a>
+      
+      
+        <a href="https://github.com/Ahpatsum15" target="_blank">GitHub</a>
+      
+      <!--
+        <a href="https://twitter.com/AhpaTsum1337" target="_blank">Twitter</a>
+      -->
+      <a href="mailto:mustaphaelbouazaoui@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+    <script src="/assets/js/main.js"></script> <!-- Optional JS -->
+  </body>
+
+</html>
