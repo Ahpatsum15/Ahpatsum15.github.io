@@ -1,88 +1,287 @@
 <!-- _layouts/default.html -->
 <!DOCTYPE html>
 <html lang="en">
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script>
-  window.MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    processEscapes: true
-  };
-  </script>
-  <!-- _includes/head.html -->
+  <head>
+    <!-- _includes/head.html -->
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script>
+    (function() {
+      try {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="/assets/css/style.css">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico"> <!-- Add a favicon.ico to assets/images/ -->
-  <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Top Tip for Machine Learning Beginners | My Portfolio</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!-- Begin Jekyll SEO tag v2.9.1 -->
+<title>Top Tip for Machine Learning Beginners | Mustapha El Bouazaoui</title>
 <meta name="generator" content="Jekyll v3.10.0" />
 <meta property="og:title" content="Top Tip for Machine Learning Beginners" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="If you’re starting in ML, don’t rush into neural nets. Master linear regression, probability, and statistics first. Your intuition will thank you later!" />
-<meta property="og:description" content="If you’re starting in ML, don’t rush into neural nets. Master linear regression, probability, and statistics first. Your intuition will thank you later!" />
-<link rel="canonical" href="http://localhost:4000/machine-learning/2025/08/04/ml-tip1.html" />
-<meta property="og:url" content="http://localhost:4000/machine-learning/2025/08/04/ml-tip1.html" />
-<meta property="og:site_name" content="My Portfolio" />
+<meta name="twitter:description" property="og:description" content="If you’re starting in ML, don’t rush into neural nets. Master linear regression, probability, and statistics first. Your intuition will thank you later!" />
+<link rel="canonical" href="https://ahpatsum15.github.io/machine-learning/2025/08/04/ml-tip1.html" />
+<meta property="og:url" content="https://ahpatsum15.github.io/machine-learning/2025/08/04/ml-tip1.html" />
+<meta property="og:site_name" content="Mustapha El Bouazaoui" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2025-08-04T00:00:00+01:00" />
+<meta property="article:modified_time" content="2025-08-04T00:00:00+01:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Top Tip for Machine Learning Beginners" />
+<meta name="twitter:title" content="Top Tip for Machine Learning Beginners" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-08-04T00:00:00+01:00","datePublished":"2025-08-04T00:00:00+01:00","description":"If you’re starting in ML, don’t rush into neural nets. Master linear regression, probability, and statistics first. Your intuition will thank you later!","headline":"Top Tip for Machine Learning Beginners","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/machine-learning/2025/08/04/ml-tip1.html"},"url":"http://localhost:4000/machine-learning/2025/08/04/ml-tip1.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-08-04T00:00:00+01:00","datePublished":"2025-08-04T00:00:00+01:00","description":"If you’re starting in ML, don’t rush into neural nets. Master linear regression, probability, and statistics first. Your intuition will thank you later!","headline":"Top Tip for Machine Learning Beginners","mainEntityOfPage":{"@type":"WebPage","@id":"https://ahpatsum15.github.io/machine-learning/2025/08/04/ml-tip1.html"},"url":"https://ahpatsum15.github.io/machine-learning/2025/08/04/ml-tip1.html"}</script>
 <!-- End Jekyll SEO tag -->
 
-  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="My Portfolio" />
+  <link type="application/atom+xml" rel="alternate" href="https://ahpatsum15.github.io/feed.xml" title="Mustapha El Bouazaoui" />
 </head>
 
-  <body>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          processEscapes: true
+        },
+        options: {
+          skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
 
+  <body>
     <!-- _includes/header.html -->
 <header class="site-header">
-  <div class="wrapper">
-    <a class="site-title" href="/">My Portfolio</a>
-    <nav class="site-nav">
-      <a href="/">Home</a>
-      <a href="/about/">About</a>
-      <a href="/projects/">Projects</a>
-      <a href="/blog/">Blog</a> 
-      
-      <a href="/contact/">Contact</a>
-    </nav>
+  <div class="header-container wrapper">
+    <a class="site-title" href="/">
+      <span class="site-title-avatar">ME</span>
+      <span class="site-title-text">Mustapha El Bouazaoui</span>
+    </a>
+
+    <div class="header-right">
+      <nav class="site-nav" id="site-nav">
+        <a href="/" class="nav-link ">Home</a>
+        <a href="/about/" class="nav-link ">About</a>
+        <a href="/projects/" class="nav-link ">Projects</a>
+        <a href="/blog/" class="nav-link ">PhD & Blog</a>
+        <a href="/contact/" class="nav-link ">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Dark / Light Theme Toggle -->
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+          <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-menu-toggle" class="mobile-menu-btn" aria-label="Toggle navigation menu">
+          <svg class="menu-open-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+          <svg class="menu-close-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
   </div>
 </header>
 
+
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <p>If you’re starting in ML, don’t rush into neural nets. Master linear regression, probability, and statistics first. Your intuition will thank you later!</p>
+        <!-- _layouts/post.html -->
+<article class="post-article">
+  <div class="post-header">
+    <div class="post-breadcrumb">
+      <a href="/blog/">&larr; Back to PhD Articles & Blog</a>
+    </div>
+
+    
+      <div class="post-categories">
+        
+          <span class="badge-pill category-badge">Machine learning</span>
+        
+      </div>
+    
+
+    <h1 class="post-main-title">Top Tip for Machine Learning Beginners</h1>
+
+    <div class="post-meta-bar">
+      <div class="meta-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <span>August 4, 2025</span>
+      </div>
+
+      
+
+      <div class="meta-item reading-time">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span id="reading-time-estimate">Calculating reading time...</span>
+      </div>
+    </div>
+
+    
+      <div class="post-tags-list">
+        
+          <span class="tag-pill">#ML</span>
+        
+          <span class="tag-pill">#Tips</span>
+        
+      </div>
+    
+  </div>
+
+  <div class="post-content" id="post-content">
+    <p>If you’re starting in ML, don’t rush into neural nets. Master linear regression, probability, and statistics first. Your intuition will thank you later!</p>
+
+  </div>
+
+  <div class="post-author-box">
+    <div class="author-avatar-col">
+      <img src="/assets/images/profile.jpg" alt="Mustapha El Bouazaoui" class="author-avatar">
+    </div>
+    <div class="author-bio-col">
+      <h3>Written by Mustapha El Bouazaoui</h3>
+      <p>PhD Researcher in Information Theory & Quantum Information at UM6P College of Computing. Cybersecurity & Telecom Engineer (IMT Atlantique) specializing in quantum secrecy capacity, cryptography, and penetration testing.</p>
+      <div class="author-links">
+        <a href="/contact/" class="btn btn-sm btn-primary">Get in Touch</a>
+        <a href="/assets/files/CV_PhD_mustapha_el%20bouazaoui_updated.pdf" class="btn btn-sm btn-outline" target="_blank">View CV</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-footer-nav">
+    <a href="/blog/" class="btn btn-outline">&larr; Return to All Articles</a>
+  </div>
+</article>
 
       </div>
     </main>
 
+    <!-- Back to top floating button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top" title="Back to top">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
     <!-- _includes/footer.html -->
 <footer class="site-footer">
-  <div class="wrapper">
-    <p>&copy; 2026 M. EL BOUAZAOUI. All rights reserved.</p>
-    <div class="social-links">
-      
-        <a href="https://www.linkedin.com/in/elbouazaouimustapha" target="_blank">LinkedIn</a>
-      
-      
-        <a href="https://github.com/Ahpatsum15" target="_blank">GitHub</a>
-      
-      <!--
-        <a href="https://twitter.com/AhpaTsum1337" target="_blank">Twitter</a>
-      -->
-      <a href="mailto:mustaphaelbouazaoui@gmail.com">Email</a>
+  <div class="wrapper footer-container">
+    <div class="footer-col-about">
+      <div class="footer-brand">
+        <span class="site-title-avatar">ME</span>
+        <strong>Mustapha El Bouazaoui</strong>
+      </div>
+      <p class="footer-desc">
+        PhD Researcher in Information Theory & Quantum Computing at UM6P.<br>
+        Cybersecurity & Telecom Engineer (IMT Atlantique) — Available for freelance security consulting, penetration testing, and DevSecOps.
+      </p>
+      <div class="availability-badge">
+        <span class="status-dot"></span> Available for freelance projects & research collaborations
+      </div>
+    </div>
+
+    <div class="footer-col-links">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About Me</a></li>
+        <li><a href="/projects/">Projects & Services</a></li>
+        <li><a href="/blog/">PhD Articles & Blog</a></li>
+        <li><a href="/contact/">Contact & Hire</a></li>
+        <li><a href="/assets/files/CV_PhD_mustapha_el%20bouazaoui_updated.pdf" target="_blank">Download CV (PDF)</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col-connect">
+      <h4>Connect</h4>
+      <div class="social-links-grid">
+        
+          <a href="https://www.linkedin.com/in/elbouazaouimustapha" target="_blank" rel="noopener" class="social-btn" title="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+            <span>LinkedIn</span>
+          </a>
+        
+        
+          <a href="https://github.com/Ahpatsum15" target="_blank" rel="noopener" class="social-btn" title="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            <span>GitHub</span>
+          </a>
+        
+        
+          <a href="https://twitter.com/AhpaTsum1337" target="_blank" rel="noopener" class="social-btn" title="Twitter / X">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            <span>Twitter</span>
+          </a>
+        
+        <a href="mailto:mustaphaelbouazaoui@gmail.com" class="social-btn" title="Email">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <span>Email</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="wrapper">
+      <p>&copy; 2026 Mustapha El Bouazaoui. All rights reserved. Built with Jekyll.</p>
     </div>
   </div>
 </footer>
 
-    <script src="/assets/js/main.js"></script> <!-- Optional JS -->
-  </body>
 
+    <script src="/assets/js/main.js"></script>
+  </body>
 </html>

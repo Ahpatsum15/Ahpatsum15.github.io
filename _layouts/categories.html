@@ -1,0 +1,42 @@
+---
+layout: default
+---
+<!-- _layouts/categories.html -->
+<div class="page-header">
+  <div class="badge-pill">Articles & Research Archive</div>
+  <h1 class="page-title">Blog by Category</h1>
+  <p class="page-subtitle">Explore research notes in Information Theory, practical DevSecOps writeups, machine learning tutorials, and cybersecurity insights.</p>
+</div>
+
+<div class="categories-container">
+  {% for category in site.categories %}
+    <div class="category-block" id="{{ category[0] | slugify }}">
+      <div class="category-header">
+        <h2 class="category-title">
+          <span class="category-tag-symbol">#</span> {{ category[0] | replace: "-", " " | capitalize }}
+        </h2>
+        <span class="category-count">{{ category[1] | size }} {% if category[1].size == 1 %}article{% else %}articles{% endif %}</span>
+      </div>
+
+      <ul class="categorized-posts-list">
+        {% for post in category[1] %}
+          <li class="categorized-post-item">
+            <span class="post-date-badge">{{ post.date | date: "%b %d, %Y" }}</span>
+            <a href="{{ post.url | relative_url }}" class="categorized-post-title">{{ post.title }}</a>
+            {% if post.tags %}
+              <div class="post-tags-mini">
+                {% for tag in post.tags limit:3 %}
+                  <span class="tag-pill-mini">{{ tag }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+</div>
+
+<div class="back-link-wrapper">
+  <a href="{{ '/blog/' | relative_url }}" class="btn btn-outline">&larr; Back to Main Blog & PhD Notes</a>
+</div>

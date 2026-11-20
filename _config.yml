@@ -1,53 +1,40 @@
 # _config.yml
-title: My Portfolio
+title: Mustapha El Bouazaoui
 email: mustaphaelbouazaoui@gmail.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Portfolio of Mustapha El Bouazaoui, a Cybersecurity Engineer and Math Enthusiast.
-  Specializing in cryptography, machine learning, and algorithms.
+description: >-
+  Portfolio & Research Blog of Mustapha El Bouazaoui — PhD Researcher in Information Theory & Quantum Information at UM6P, Cybersecurity & Telecom Engineer from IMT Atlantique.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://Ahpatsum15.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://Ahpatsum15.github.io" # the base hostname & protocol for your site
 github_username: Ahpatsum15
-linkedin_username: elbouazaouimustapha # Add if you have a LinkedIn
-twitter_username: AhpaTsum1337 # Add if you use Twitter
+linkedin_username: elbouazaouimustapha
+twitter_username: AhpaTsum1337
+cv_url: "/assets/files/CV_PhD_mustapha_el bouazaoui_updated.pdf"
 
 # Build settings
 markdown: kramdown
-theme: minima # You can change this or remove it to use custom styles
+theme: minima
 plugins:
   - jekyll-feed
 
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically added to
-# the internal "default list".
-#
-# Excluded items can be processed by explicitly listing the directories or
-# their entries' file path in the `include:` list.
-#
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+# Exclude vendor and cache from build
+exclude:
+  - vendor/
+  - .bundle/
+  - .sass-cache/
+  - .jekyll-cache/
+  - Gemfile
+  - Gemfile.lock
 
 sass:
   style: compressed # Minify CSS
-
-# Collections (Optional, for blog or projects if you want more structure)
-# collections:
-#   projects:
-#     output: true
-#   posts:
-#     output: true
 
 defaults:
   - scope:
       path: ""
     values:
       layout: "default"
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"

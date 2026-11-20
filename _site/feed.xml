@@ -1,4 +1,177 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-07-22T02:13:14+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">My Portfolio</title><subtitle>Portfolio of Mustapha El Bouazaoui, a Cybersecurity Engineer and Math Enthusiast. Specializing in cryptography, machine learning, and algorithms.</subtitle><entry><title type="html">About Git</title><link href="http://localhost:4000/devops/2026/07/21/about-git.html" rel="alternate" type="text/html" title="About Git" /><published>2026-07-21T00:00:00+01:00</published><updated>2026-07-21T00:00:00+01:00</updated><id>http://localhost:4000/devops/2026/07/21/about-git</id><content type="html" xml:base="http://localhost:4000/devops/2026/07/21/about-git.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://ahpatsum15.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ahpatsum15.github.io/" rel="alternate" type="text/html" /><updated>2026-11-20T11:19:31+00:00</updated><id>https://ahpatsum15.github.io/feed.xml</id><title type="html">Mustapha El Bouazaoui</title><subtitle>Portfolio &amp; Research Blog of Mustapha El Bouazaoui — PhD Researcher in Information Theory &amp; Quantum Information at UM6P, Cybersecurity &amp; Telecom Engineer from IMT Atlantique.</subtitle><entry><title type="html">Foundations of the Wiretap Channel and Secrecy Capacity: From Wyner to Quantum Information</title><link href="https://ahpatsum15.github.io/information-theory/2026/11/20/foundations-of-wiretap-channel-and-secrecy-capacity.html" rel="alternate" type="text/html" title="Foundations of the Wiretap Channel and Secrecy Capacity: From Wyner to Quantum Information" /><published>2026-11-20T00:00:00+00:00</published><updated>2026-11-20T00:00:00+00:00</updated><id>https://ahpatsum15.github.io/information-theory/2026/11/20/foundations-of-wiretap-channel-and-secrecy-capacity</id><content type="html" xml:base="https://ahpatsum15.github.io/information-theory/2026/11/20/foundations-of-wiretap-channel-and-secrecy-capacity.html"><![CDATA[<h2 id="1-introduction-computational-vs-information-theoretic-security">1. Introduction: Computational vs. Information-Theoretic Security</h2>
+
+<p>In modern cryptography, security proofs typically rely on computational hardness assumptions—such as the discrete logarithm problem, prime factorization, or the hardness of lattice-based learning with errors (LWE). While these assumptions protect everyday communication against polynomially bounded adversaries, they remain inherently vulnerable to algorithmic breakthroughs, side-channel attacks, or the eventual realization of large-scale fault-tolerant quantum computers running Shor’s algorithm.</p>
+
+<p><strong>Information-theoretic security</strong>, originally formulated by Claude Shannon in his seminal 1949 paper <em>“Communication Theory of Secrecy Systems”</em>, adopts a fundamentally different perspective. Instead of relying on an adversary’s computational limitations, information-theoretic security guarantees that the adversary’s intercepted transmission reveals <strong>zero statistical information</strong> about the plaintext message, regardless of computing power.</p>
+
+<p>Shannon established that perfect secrecy requires:</p>
+
+\[H(M \mid C) = H(M) \iff I(M; C) = 0\]
+
+<p>where $M$ denotes the plaintext message, $C$ the ciphertext, $H(\cdot)$ is Shannon entropy, and $I(\cdot ; \cdot)$ is mutual information. The fundamental price for Shannon’s perfect secrecy is that the secret key entropy must equal or exceed the message entropy:</p>
+
+\[H(K) \ge H(M)\]
+
+<p>This requirement explains why the one-time pad (OTP) remains impractical for high-throughput communications without pre-shared keys of equivalent size.</p>
+
+<p>However, in 1975, <strong>Aaron D. Wyner</strong> demonstrated a profound breakthrough: by exploiting the physical imperfections and noise inherent to transmission media, two parties can establish confidential communication and generate shared secrecy <strong>without any pre-shared secret key</strong>. This framework is known as the <strong>Wiretap Channel</strong>, and it serves as the foundational starting point for my doctoral dissertation at UM6P College of Computing.</p>
+
+<hr />
+
+<h2 id="2-wyners-degraded-wiretap-channel-model">2. Wyner’s Degraded Wiretap Channel Model</h2>
+
+<p>Consider three canonical agents:</p>
+<ul>
+  <li><strong>Alice (Transmitter)</strong>: Wants to send a confidential message $W \in {1, 2, \dots, M}$ to Bob.</li>
+  <li><strong>Bob (Legitimate Receiver)</strong>: Observes channel output $Y^n \in \mathcal{Y}^n$.</li>
+  <li><strong>Eve (Wiretapper/Eavesdropper)</strong>: Observes wiretap output $Z^n \in \mathcal{Z}^n$.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>         +-------+     X^n     +-----------------+     Y^n     +-------+
+Message -| Alice |------------&gt;|  Main Channel   |------------&gt;|  Bob  |-&gt; \hat{W}
+   W     +-------+             |  P(y|x)         |             +-------+
+                               +-----------------+
+                                        |
+                                        v
+                               +-----------------+     Z^n     +-------+
+                               | Wiretap Channel |------------&gt;|  Eve  |-&gt; Equivocation
+                               | P(z|y)          |             +-------+
+                               +-----------------+
+</code></pre></div></div>
+
+<p>In Wyner’s degraded formulation, the joint transition probability factorizes according to the Markov chain:</p>
+
+\[X \longrightarrow Y \longrightarrow Z\]
+
+<p>This implies:</p>
+
+\[P(y, z \mid x) = P(y \mid x) P(z \mid y)\]
+
+<h3 id="secrecy-criteria-and-equivocation">Secrecy Criteria and Equivocation</h3>
+
+<p>A transmission scheme is characterized by a codebook with block length $n$ and message transmission rate:</p>
+
+\[R = \frac{1}{n} \log_2 M\]
+
+<p>The legitimate receiver must reconstruct the message with arbitrarily low probability of error:</p>
+
+\[\lim_{n \to \infty} P_e^{(n)} = \lim_{n \to \infty} \Pr\{\hat{W} \neq W\} = 0\]
+
+<p>To quantify Eve’s uncertainty, Wyner defined the <strong>equivocation rate</strong>:</p>
+
+\[\Delta = \frac{1}{n} H(W \mid Z^n)\]
+
+<p>Under the <strong>strong secrecy criterion</strong>, the mutual information between the transmitted message $W$ and Eve’s observations $Z^n$ must vanish asymptotically:</p>
+
+\[\lim_{n \to \infty} I(W; Z^n) = 0\]
+
+<hr />
+
+<h2 id="3-the-secrecy-capacity-theorem">3. The Secrecy Capacity Theorem</h2>
+
+<p>The <strong>secrecy capacity</strong> $C_s$ is the maximum transmission rate at which information can be delivered reliably to Bob while guaranteeing asymptotic secrecy with respect to Eve.</p>
+
+<h3 id="wyners-degraded-wiretap-capacity">Wyner’s Degraded Wiretap Capacity</h3>
+
+<p>For the degraded wiretap channel where $X \to Y \to Z$, Wyner proved that:</p>
+
+\[C_s = \max_{p(x)} \left[ I(X; Y) - I(X; Z) \right]\]
+
+<h3 id="csiszár-and-körners-generalization-1978">Csiszár and Körner’s Generalization (1978)</h3>
+
+<p>For arbitrary (non-degraded) broadcast channels with confidential messages, Imre Csiszár and János Körner proved the generalized capacity formula introducing an auxiliary random variable $U$:</p>
+
+\[C_s = \max_{p(u, x)} \left[ I(U; Y) - I(U; Z) \right]^+\]
+
+<p>where $[a]^+ = \max(0, a)$, and the random variables satisfy the Markov condition $U \to X \to (Y, Z)$.</p>
+
+<blockquote>
+  <p><strong>Core Intuition</strong>: Secrecy capacity is strictly positive ($C_s &gt; 0$) whenever Bob’s channel quality is statistically superior to Eve’s channel quality. Alice utilizes stochastic encoding (random binning) to inject artificial noise into Eve’s decoder while Bob retains sufficient mutual information to decode deterministically.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="4-the-gaussian-wiretap-channel">4. The Gaussian Wiretap Channel</h2>
+
+<p>To see this in practical communication systems, consider the additive white Gaussian noise (AWGN) wiretap channel:</p>
+
+\[Y = X + N_B, \quad N_B \sim \mathcal{N}(0, \sigma_B^2)\]
+
+\[Z = X + N_E, \quad N_E \sim \mathcal{N}(0, \sigma_E^2)\]
+
+<p>under average transmitter power constraint $\mathbb{E}[X^2] \le P$.</p>
+
+<p>The capacity of Bob’s channel and Eve’s channel are respectively:</p>
+
+\[C_B = \frac{1}{2} \log_2\left(1 + \frac{P}{\sigma_B^2}\right), \quad C_E = \frac{1}{2} \log_2\left(1 + \frac{P}{\sigma_E^2}\right)\]
+
+<p>The Gaussian secrecy capacity evaluates to:</p>
+
+\[C_s = \left[ C_B - C_E \right]^+ = \begin{cases} \frac{1}{2} \log_2\left(\frac{1 + P/\sigma_B^2}{1 + P/\sigma_E^2}\right), &amp; \text{if } \sigma_B^2 &lt; \sigma_E^2 \\ 0, &amp; \text{if } \sigma_B^2 \ge \sigma_E^2 \end{cases}\]
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Secrecy Capacity (bits/channel use)
+   ^
+   |        .-------------------  High SNR asymptote: log2(sigma_E / sigma_B)
+   |       /
+Cs |      /
+   |     /
+   |    /
+   +---+------------------------&gt; Transmitter Power P
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="5-from-classical-to-quantum-wiretap-channels-the-phd-frontier">5. From Classical to Quantum Wiretap Channels: The PhD Frontier</h2>
+
+<p>In modern physical implementations—including deep-space satellite optical links, fiber-optic telecom backbones, and quantum key distribution (QKD) infrastructures—signals propagate as single photons or coherent quantum states.</p>
+
+<p>In a <strong>Quantum Wiretap Channel</strong>, Alice encodes classical messages into quantum density matrices $\rho \in \mathcal{S}(\mathcal{H}_A)$. The transmission medium is described by a completely positive trace-preserving (CPTP) quantum channel:</p>
+
+\[\mathcal{N} : \mathcal{B}(\mathcal{H}_A) \longrightarrow \mathcal{B}(\mathcal{H}_B)\]
+
+<p>Because every quantum channel admits an isometric Stinespring dilation $U : \mathcal{H}_A \to \mathcal{H}_B \otimes \mathcal{H}_E$, whatever information is lost to the environment is accessible to Eve through the complementary channel $\mathcal{N}^c$:</p>
+
+\[\mathcal{N}^c : \mathcal{B}(\mathcal{H}_A) \longrightarrow \mathcal{B}(\mathcal{H}_E)\]
+
+<h3 id="private-classical-capacity-c_pmathcaln">Private Classical Capacity $C_p(\mathcal{N})$</h3>
+
+<p>The rate at which Alice can transmit secret classical data over a quantum channel while keeping Eve completely decoupled in trace distance:</p>
+
+\[\lim_{n \to \infty} \left\| \rho_{W E^n} - \rho_W \otimes \rho_{E^n} \right\|_1 = 0\]
+
+<p>is governed by the <strong>Holevo information</strong> $\chi$:</p>
+
+\[\chi(\{p_x, \rho_x\}) = S\left(\sum_x p_x \rho_x\right) - \sum_x p_x S(\rho_x)\]
+
+<p>where $S(\rho) = -\mathrm{Tr}(\rho \log_2 \rho)$ is the von Neumann entropy.</p>
+
+<p>The regularized private capacity is expressed by:</p>
+
+\[C_p(\mathcal{N}) = \lim_{n \to \infty} \frac{1}{n} \max_{\{p_x, \rho_x\}} \left[ \chi(\{p_x, \mathcal{N}^{\otimes n}(\rho_x)\}) - \chi(\{p_x, (\mathcal{N}^c)^{\otimes n}(\rho_x)\}) \right]\]
+
+<h3 id="research-focus-at-um6p">Research Focus at UM6P</h3>
+
+<p>Unlike classical memoryless channels where single-letter formulas suffice, quantum channels can exhibit <strong>superadditivity</strong>, where $C_p(\mathcal{N}^{\otimes 2}) &gt; 2 C_p(\mathcal{N})$.</p>
+
+<p>My research focuses on:</p>
+<ol>
+  <li><strong>Explicit Secrecy Bounds</strong>: Deriving non-asymptotic bounds for noisy bosonic and depolarizing wiretap models.</li>
+  <li><strong>Polar &amp; LDPC Coding</strong>: Designing practical error-correction and privacy-amplification codes that approach the secrecy capacity without requiring impractically large quantum blocklengths.</li>
+  <li><strong>Finite-Blocklength Analysis</strong>: Investigating error-exponent behavior and second-order asymptotics under realistic SNR fluctuations.</li>
+</ol>
+
+<hr />
+
+<h2 id="6-whats-next-in-this-series">6. What’s Next in This Series</h2>
+
+<p>This article forms the theoretical foundation for upcoming articles in my PhD research companion series:</p>
+<ul>
+  <li><strong>Part 2</strong>: <em>Strong Secrecy vs. Weak Secrecy: Random Binning and Information-Spectrum Methods</em></li>
+  <li><strong>Part 3</strong>: <em>Coding for the Gaussian Wiretap Channel with Polar Codes</em></li>
+  <li><strong>Part 4</strong>: <em>Complementary Channels, Dilation Theory, and Quantum Secrecy Capacity</em></li>
+</ul>
+
+<p>Stay tuned for derivations, Jupyter simulation notebooks, and code implementations!</p>]]></content><author><name>Mustapha El Bouazaoui</name></author><category term="information-theory" /><category term="information-theory" /><category term="phd" /><category term="quantum-information" /><category term="cryptography" /><category term="secrecy-capacity" /><summary type="html"><![CDATA[1. Introduction: Computational vs. Information-Theoretic Security]]></summary></entry><entry><title type="html">About Git</title><link href="https://ahpatsum15.github.io/devops/2026/07/21/about-git.html" rel="alternate" type="text/html" title="About Git" /><published>2026-07-21T00:00:00+01:00</published><updated>2026-07-21T00:00:00+01:00</updated><id>https://ahpatsum15.github.io/devops/2026/07/21/about-git</id><content type="html" xml:base="https://ahpatsum15.github.io/devops/2026/07/21/about-git.html"><![CDATA[<blockquote>
   <p>This will be a full course and reminder about Git. It was inspired from theprimeagen course on <a href="https://www.boot.dev/courses/learn-git">bootdev</a></p>
   <h2 id="table-of-contents">Table of Contents</h2>
   <ul>
@@ -723,7 +896,7 @@ git revert &lt;commit-hash&gt;
 <hr />
 <h2 id="extra-commands">Extra commands</h2>
 
-<p><code class="language-plaintext highlighter-rouge">git restore file</code> — discard uncommitted changes to a file</p>]]></content><author><name>Mustapha El Bouazaoui (Steph)</name></author><category term="devops" /><category term="course" /><category term="version-control" /><category term="DevOps" /><category term="DevSecOps" /><summary type="html"><![CDATA[This will be a full course and reminder about Git. It was inspired from theprimeagen course on bootdev Table of Contents Setup Start Branching Merge Rebase Undoing changes Remote Fork Conflicting changes Rebase conflicts Squashing Stash Revert Cherry pick Bisect Worktree Tags Extra commands]]></summary></entry><entry><title type="html">Why I use Obsidian Notes</title><link href="http://localhost:4000/productivity/2025/08/05/Why-I-use-Obsidian-Notes.html" rel="alternate" type="text/html" title="Why I use Obsidian Notes" /><published>2025-08-05T00:00:00+01:00</published><updated>2025-08-05T00:00:00+01:00</updated><id>http://localhost:4000/productivity/2025/08/05/Why-I-use-Obsidian-Notes</id><content type="html" xml:base="http://localhost:4000/productivity/2025/08/05/Why-I-use-Obsidian-Notes.html"><![CDATA[<h1 id="why-you-should-use-obsidian-note">Why you should use obsidian note?</h1>
+<p><code class="language-plaintext highlighter-rouge">git restore file</code> — discard uncommitted changes to a file</p>]]></content><author><name>Mustapha El Bouazaoui (Steph)</name></author><category term="devops" /><category term="course" /><category term="version-control" /><category term="DevOps" /><category term="DevSecOps" /><summary type="html"><![CDATA[This will be a full course and reminder about Git. It was inspired from theprimeagen course on bootdev Table of Contents Setup Start Branching Merge Rebase Undoing changes Remote Fork Conflicting changes Rebase conflicts Squashing Stash Revert Cherry pick Bisect Worktree Tags Extra commands]]></summary></entry><entry><title type="html">Why I use Obsidian Notes</title><link href="https://ahpatsum15.github.io/productivity/2025/08/05/Why-I-use-Obsidian-Notes.html" rel="alternate" type="text/html" title="Why I use Obsidian Notes" /><published>2025-08-05T00:00:00+01:00</published><updated>2025-08-05T00:00:00+01:00</updated><id>https://ahpatsum15.github.io/productivity/2025/08/05/Why-I-use-Obsidian-Notes</id><content type="html" xml:base="https://ahpatsum15.github.io/productivity/2025/08/05/Why-I-use-Obsidian-Notes.html"><![CDATA[<h1 id="why-you-should-use-obsidian-note">Why you should use obsidian note?</h1>
 
 <blockquote>
   <p><em>“Your mind is for having ideas, not holding them.”</em> – David Allen</p>
@@ -896,7 +1069,7 @@ def greet():
 
 <p>For further information, you can refer to a lot of videos out there, my favourite is this one <a href="https://www.youtube.com/watch?v=hSTy_BInQs8&amp;t=5s&amp;ab_channel=Odysseas">Obsidian: The King of Learning Tools</a></p>
 
-<p>Mustapha EL BOUAZAOUI.</p>]]></content><author><name></name></author><category term="Productivity" /><category term="productivity" /><category term="obsidian" /><category term="note-taking" /><summary type="html"><![CDATA[Why you should use obsidian note?]]></summary></entry><entry><title type="html">Comprehensive Guide to Linear Regression: From Theory to Robust Estimation</title><link href="http://localhost:4000/machine-learning/2025/08/05/linear-regression.html" rel="alternate" type="text/html" title="Comprehensive Guide to Linear Regression: From Theory to Robust Estimation" /><published>2025-08-05T00:00:00+01:00</published><updated>2025-08-05T00:00:00+01:00</updated><id>http://localhost:4000/machine-learning/2025/08/05/linear-regression</id><content type="html" xml:base="http://localhost:4000/machine-learning/2025/08/05/linear-regression.html"><![CDATA[<h1 id="linear-regression-foundations-optimization-and-robust-estimation">Linear Regression: Foundations, Optimization, and Robust Estimation</h1>
+<p>Mustapha EL BOUAZAOUI.</p>]]></content><author><name></name></author><category term="Productivity" /><category term="productivity" /><category term="obsidian" /><category term="note-taking" /><summary type="html"><![CDATA[Why you should use obsidian note?]]></summary></entry><entry><title type="html">Comprehensive Guide to Linear Regression: From Theory to Robust Estimation</title><link href="https://ahpatsum15.github.io/machine-learning/2025/08/05/linear-regression.html" rel="alternate" type="text/html" title="Comprehensive Guide to Linear Regression: From Theory to Robust Estimation" /><published>2025-08-05T00:00:00+01:00</published><updated>2025-08-05T00:00:00+01:00</updated><id>https://ahpatsum15.github.io/machine-learning/2025/08/05/linear-regression</id><content type="html" xml:base="https://ahpatsum15.github.io/machine-learning/2025/08/05/linear-regression.html"><![CDATA[<h1 id="linear-regression-foundations-optimization-and-robust-estimation">Linear Regression: Foundations, Optimization, and Robust Estimation</h1>
 
 <blockquote>
   <p><strong>Author</strong>: Mustapha EL BOUAZAOUI <br />
@@ -1498,4 +1671,4 @@ where $w$ is the expected fraction of inliers and $n$ is the number of points in
   <li>Goodfellow, I., Bengio, Y., &amp; Courville, A. (2016). <em>Deep Learning</em>. MIT Press.</li>
   <li>Scikit-learn Documentation: <a href="https://scikit-learn.org/stable/modules/linear_model.html#robust-regression-outliers-and-modeling-errors">Robust Regression Models</a>.</li>
   <li>Andrew Ng’s Machine Learning Course CSS229</li>
-</ul>]]></content><author><name></name></author><category term="Machine-learning" /><category term="ml" /><category term="programming" /><category term="math" /><summary type="html"><![CDATA[Linear Regression: Foundations, Optimization, and Robust Estimation]]></summary></entry><entry><title type="html">Crypto Tip: Don’t Reinvent the Wheel</title><link href="http://localhost:4000/cryptography/2025/08/04/crypto-tip1.html" rel="alternate" type="text/html" title="Crypto Tip: Don’t Reinvent the Wheel" /><published>2025-08-04T00:00:00+01:00</published><updated>2025-08-04T00:00:00+01:00</updated><id>http://localhost:4000/cryptography/2025/08/04/crypto-tip1</id><content type="html" xml:base="http://localhost:4000/cryptography/2025/08/04/crypto-tip1.html"><![CDATA[<p>When designing secure systems, avoid creating your own crypto. Always rely on battle-tested libraries.</p>]]></content><author><name></name></author><category term="cryptography" /><category term="Crypto" /><category term="Tips" /><summary type="html"><![CDATA[When designing secure systems, avoid creating your own crypto. Always rely on battle-tested libraries.]]></summary></entry><entry><title type="html">Top Tip for Machine Learning Beginners</title><link href="http://localhost:4000/machine-learning/2025/08/04/ml-tip1.html" rel="alternate" type="text/html" title="Top Tip for Machine Learning Beginners" /><published>2025-08-04T00:00:00+01:00</published><updated>2025-08-04T00:00:00+01:00</updated><id>http://localhost:4000/machine-learning/2025/08/04/ml-tip1</id><content type="html" xml:base="http://localhost:4000/machine-learning/2025/08/04/ml-tip1.html"><![CDATA[<p>If you’re starting in ML, don’t rush into neural nets. Master linear regression, probability, and statistics first. Your intuition will thank you later!</p>]]></content><author><name></name></author><category term="machine-learning" /><category term="ML" /><category term="Tips" /><summary type="html"><![CDATA[If you’re starting in ML, don’t rush into neural nets. Master linear regression, probability, and statistics first. Your intuition will thank you later!]]></summary></entry></feed>
+</ul>]]></content><author><name></name></author><category term="Machine-learning" /><category term="ml" /><category term="programming" /><category term="math" /><summary type="html"><![CDATA[Linear Regression: Foundations, Optimization, and Robust Estimation]]></summary></entry><entry><title type="html">Crypto Tip: Don’t Reinvent the Wheel</title><link href="https://ahpatsum15.github.io/cryptography/2025/08/04/crypto-tip1.html" rel="alternate" type="text/html" title="Crypto Tip: Don’t Reinvent the Wheel" /><published>2025-08-04T00:00:00+01:00</published><updated>2025-08-04T00:00:00+01:00</updated><id>https://ahpatsum15.github.io/cryptography/2025/08/04/crypto-tip1</id><content type="html" xml:base="https://ahpatsum15.github.io/cryptography/2025/08/04/crypto-tip1.html"><![CDATA[<p>When designing secure systems, avoid creating your own crypto. Always rely on battle-tested libraries.</p>]]></content><author><name></name></author><category term="cryptography" /><category term="Crypto" /><category term="Tips" /><summary type="html"><![CDATA[When designing secure systems, avoid creating your own crypto. Always rely on battle-tested libraries.]]></summary></entry><entry><title type="html">Top Tip for Machine Learning Beginners</title><link href="https://ahpatsum15.github.io/machine-learning/2025/08/04/ml-tip1.html" rel="alternate" type="text/html" title="Top Tip for Machine Learning Beginners" /><published>2025-08-04T00:00:00+01:00</published><updated>2025-08-04T00:00:00+01:00</updated><id>https://ahpatsum15.github.io/machine-learning/2025/08/04/ml-tip1</id><content type="html" xml:base="https://ahpatsum15.github.io/machine-learning/2025/08/04/ml-tip1.html"><![CDATA[<p>If you’re starting in ML, don’t rush into neural nets. Master linear regression, probability, and statistics first. Your intuition will thank you later!</p>]]></content><author><name></name></author><category term="machine-learning" /><category term="ML" /><category term="Tips" /><summary type="html"><![CDATA[If you’re starting in ML, don’t rush into neural nets. Master linear regression, probability, and statistics first. Your intuition will thank you later!]]></summary></entry></feed>

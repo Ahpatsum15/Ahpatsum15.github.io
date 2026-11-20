@@ -1,108 +1,888 @@
 <!-- _layouts/default.html -->
 <!DOCTYPE html>
 <html lang="en">
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script>
-  window.MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    processEscapes: true
-  };
-  </script>
-  <!-- _includes/head.html -->
+  <head>
+    <!-- _includes/head.html -->
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script>
+    (function() {
+      try {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="/assets/css/style.css">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico"> <!-- Add a favicon.ico to assets/images/ -->
-  <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Projects | My Portfolio</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!-- Begin Jekyll SEO tag v2.9.1 -->
+<title>Projects &amp; Freelance Services | Mustapha El Bouazaoui</title>
 <meta name="generator" content="Jekyll v3.10.0" />
-<meta property="og:title" content="Projects" />
+<meta property="og:title" content="Projects &amp; Freelance Services" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Portfolio of Mustapha El Bouazaoui, a Cybersecurity Engineer and Math Enthusiast. Specializing in cryptography, machine learning, and algorithms." />
-<meta property="og:description" content="Portfolio of Mustapha El Bouazaoui, a Cybersecurity Engineer and Math Enthusiast. Specializing in cryptography, machine learning, and algorithms." />
-<link rel="canonical" href="http://localhost:4000/projects/" />
-<meta property="og:url" content="http://localhost:4000/projects/" />
-<meta property="og:site_name" content="My Portfolio" />
+<meta name="description" content="Portfolio &amp; Research Blog of Mustapha El Bouazaoui — PhD Researcher in Information Theory &amp; Quantum Information at UM6P, Cybersecurity &amp; Telecom Engineer from IMT Atlantique." />
+<meta name="twitter:description" property="og:description" content="Portfolio &amp; Research Blog of Mustapha El Bouazaoui — PhD Researcher in Information Theory &amp; Quantum Information at UM6P, Cybersecurity &amp; Telecom Engineer from IMT Atlantique." />
+<link rel="canonical" href="https://ahpatsum15.github.io/projects/" />
+<meta property="og:url" content="https://ahpatsum15.github.io/projects/" />
+<meta property="og:site_name" content="Mustapha El Bouazaoui" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Projects" />
+<meta name="twitter:title" content="Projects &amp; Freelance Services" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"Portfolio of Mustapha El Bouazaoui, a Cybersecurity Engineer and Math Enthusiast. Specializing in cryptography, machine learning, and algorithms.","headline":"Projects","url":"http://localhost:4000/projects/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"Portfolio \u0026amp; Research Blog of Mustapha El Bouazaoui — PhD Researcher in Information Theory \u0026amp; Quantum Information at UM6P, Cybersecurity \u0026amp; Telecom Engineer from IMT Atlantique.","headline":"Projects \u0026amp; Freelance Services","url":"https://ahpatsum15.github.io/projects/"}</script>
 <!-- End Jekyll SEO tag -->
 
-  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="My Portfolio" />
+  <link type="application/atom+xml" rel="alternate" href="https://ahpatsum15.github.io/feed.xml" title="Mustapha El Bouazaoui" />
 </head>
 
-  <body>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          processEscapes: true
+        },
+        options: {
+          skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
 
+  <body>
     <!-- _includes/header.html -->
 <header class="site-header">
-  <div class="wrapper">
-    <a class="site-title" href="/">My Portfolio</a>
-    <nav class="site-nav">
-      <a href="/">Home</a>
-      <a href="/about/">About</a>
-      <a href="/projects/">Projects</a>
-      <a href="/blog/">Blog</a> 
-      
-      <a href="/contact/">Contact</a>
-    </nav>
+  <div class="header-container wrapper">
+    <a class="site-title" href="/">
+      <span class="site-title-avatar">ME</span>
+      <span class="site-title-text">Mustapha El Bouazaoui</span>
+    </a>
+
+    <div class="header-right">
+      <nav class="site-nav" id="site-nav">
+        <a href="/" class="nav-link ">Home</a>
+        <a href="/about/" class="nav-link ">About</a>
+        <a href="/projects/" class="nav-link active">Projects</a>
+        <a href="/blog/" class="nav-link ">PhD & Blog</a>
+        <a href="/contact/" class="nav-link ">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Dark / Light Theme Toggle -->
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+          <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-menu-toggle" class="mobile-menu-btn" aria-label="Toggle navigation menu">
+          <svg class="menu-open-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+          <svg class="menu-close-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
   </div>
 </header>
 
+
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <h1>Projects</h1>
+        <div class="page-header">
+  <div class="badge-pill badge-primary">Portfolio &amp; Freelance Hub</div>
+  <h1 class="page-title">Projects &amp; Freelance Services</h1>
+  <p class="page-subtitle">Showcasing offensive/defensive cybersecurity projects, enterprise freelance consulting, doctoral research in Information Theory, and engineering tools.</p>
+</div>
 
-<h2>🔐 Cryptography</h2>
-<ul>
-    <li><a href="https://github.com/Ahpatsum15/Understanding-cryptography-solution-handbook-even-numbered" target="_blank"><strong>Understanding Cryptography Solutions</strong></a> - Solutions and explanations for exercises from the "Understanding Cryptography" textbook.</li>
-    <!--<li><a href="https://github.com/Ahpatsum15/unhashit" target="_blank"><strong>UnhashIt</strong></a> - A smart hash analyzer tool.</li>-->
-</ul>
+<!-- ======================================================================== -->
+<!-- FREELANCE SERVICES SHOWCASE & CALL TO ACTION                             -->
+<!-- ======================================================================== -->
+<div class="freelance-banner-box">
+  <div class="banner-content">
+    <div class="banner-text">
+      <div class="badge-pill badge-cyber" style="margin-bottom: 0.6rem;">Available for Freelance &amp; Consulting</div>
+      <h3>Looking for Cybersecurity Consulting or Penetration Testing?</h3>
+      <p>I help companies, startups, and development teams identify vulnerabilities before attackers do, automate attack surface discovery, design resilient cryptographic systems, and build detection rules for SIEM.</p>
+      <div class="banner-skills-list">
+        <span class="badge-pill">🛡️ Web &amp; API Penetration Testing</span>
+        <span class="badge-pill">🔍 Attack Surface Monitoring (OSINT)</span>
+        <span class="badge-pill">⚡ Microsoft Sentinel &amp; KQL Rules</span>
+        <span class="badge-pill">🔐 Cryptography &amp; PKI Consulting</span>
+      </div>
+    </div>
+    <div class="banner-cta">
+      <a href="/contact/" class="btn btn-cyber">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg>
+        Hire for a Project
+      </a>
+    </div>
+  </div>
+</div>
 
-<h2>🤖 Machine Learning</h2>
-<ul>
-    <li><em>Coming soon:</em> Deep learning projects and visualizations.</li>
-    <!-- <li><a href="#" target="_blank"><strong>Project Name</strong></a> - Brief description.</li> -->
-</ul>
+<!-- ======================================================================== -->
+<!-- FREELANCE OFFERINGS BREAKDOWN                                            -->
+<!-- ======================================================================== -->
+<div class="section-header">
+  <div class="section-tag badge-pill">What I Deliver</div>
+  <h2 class="section-title">Cybersecurity Freelancing Capabilities</h2>
+  <p class="section-subtitle">Tailored security services designed for modern engineering organizations.</p>
+</div>
 
-<h2>🌐 Internships &amp; Professional Projects</h2>
-<ul>
-    <li><strong>Vulnerability Management API</strong> (R&amp;D Engineer, +Simple Assurtech) - Developed an API for automated vulnerability detection and risk assessment.</li>
-    <li><strong>Attack Surface Management API</strong> (R&amp;D Engineer, +Simple Assurtech) - Built an API to manage and monitor the organization's attack surface with regular scans and alerts.</li>
-    <li><strong>PGP Key Management API</strong> (R&amp;D Engineer, +Simple Assurtech) - Created an internal directory for managing PGP public keys.</li>
-    <li><strong>5G NRF Security Analysis</strong> (Intern, Nokia) - Researched the Network Repository Function (NRF) in 5G, defined vulnerabilities, and integrated Microsoft Sentinel for monitoring.</li>
-    <li><strong>Satellite Communication Interference Detection</strong> (Intern, IMT Atlantique) - Used autoencoders for detecting and classifying interference in satellite communications.</li>
-</ul>
+<div class="services-grid">
+  <div class="service-card">
+    <div class="service-icon">🎯</div>
+    <h4>Web &amp; API Penetration Testing</h4>
+    <p>Black-box and grey-box security testing to uncover injection flaws, broken auth, privilege escalations, and business logic bugs.</p>
+    <ul>
+      <li>Comprehensive OWASP Top 10 assessment</li>
+      <li>RESTful API &amp; GraphQL security audits</li>
+      <li>Remediation roadmap &amp; verification re-tests</li>
+    </ul>
+  </div>
+
+  <div class="service-card">
+    <div class="service-icon">🔭</div>
+    <h4>Vulnerability Management &amp; ASM</h4>
+    <p>Continuous mapping of public-facing assets, automated vulnerability scanning, and risk-based prioritization.</p>
+    <ul>
+      <li>External asset &amp; OSINT reconnaissance</li>
+      <li>CVE / CVSS / EPSS risk scoring</li>
+      <li>FastAPI-based continuous ingestion workflows</li>
+    </ul>
+  </div>
+
+  <div class="service-card">
+    <div class="service-icon">📊</div>
+    <h4>SIEM &amp; Detection Engineering</h4>
+    <p>Custom detection engineering mapped to MITRE ATT&amp;CK for cloud workloads and enterprise networks.</p>
+    <ul>
+      <li>High-fidelity KQL rules for Microsoft Sentinel</li>
+      <li>Splunk queries &amp; SOC alert tuning</li>
+      <li>SOAR playbooks for automated incident response</li>
+    </ul>
+  </div>
+
+  <div class="service-card">
+    <div class="service-icon">🔑</div>
+    <h4>Cryptography &amp; Key Architecture</h4>
+    <p>Designing secure cryptographic protocols, key lifecycle management, and public key infrastructures (PKI).</p>
+    <ul>
+      <li>PGP/GPG key management architecture</li>
+      <li>Zero-knowledge and confidentiality reviews</li>
+      <li>Post-quantum &amp; modern cipher evaluation</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ======================================================================== -->
+<!-- INTERACTIVE PROJECTS FILTER & GRID                                       -->
+<!-- ======================================================================== -->
+<div class="section-header" style="margin-top: 3.5rem;">
+  <div class="section-tag badge-pill">All Projects &amp; Case Studies</div>
+  <h2 class="section-title">Case Studies &amp; Research Work</h2>
+  <p class="section-subtitle">Filter by domain to explore technical implementations and academic output.</p>
+</div>
+
+<div class="filter-tabs-container">
+  <button class="filter-btn active" data-filter="all">All Projects</button>
+  <button class="filter-btn" data-filter="cybersecurity-freelance">🛡️ Cybersecurity &amp; Freelancing</button>
+  <button class="filter-btn" data-filter="information-theory-phd">🔬 PhD &amp; Information Theory</button>
+  <button class="filter-btn" data-filter="machine-learning">🤖 Machine Learning &amp; Dev</button>
+</div>
+
+<div class="project-grid" id="projects-container">
+  
+    <div class="project-card" data-category="cybersecurity-freelance">
+      <div class="card-top">
+        <div class="card-badges">
+          <span class="card-category">Freelance Service</span>
+          
+            <span class="badge-pill badge-cyber">Available for Hire</span>
+          
+        </div>
+        <h3 class="card-title">
+          
+            <a href="/contact/">
+              Web &amp; API Penetration Testing &amp; Vulnerability Assessment
+            </a>
+          
+        </h3>
+        <p class="card-desc">Comprehensive offensive security assessments for modern web applications and REST APIs. Identification of business logic flaws, OWASP Top 10 vulnerabilities, auth bypasses, and security misconfigurations.</p>
+
+        
+          <ul class="card-highlights">
+            
+              <li>Manual &amp; automated penetration testing with tailored proof-of-concepts</li>
+            
+              <li>OWASP Top 10 &amp; API Security Top 10 compliance validation</li>
+            
+              <li>Clear executive summaries and actionable engineering remediation reports</li>
+            
+          </ul>
+        
+      </div>
+
+      <div class="card-bottom">
+        
+          <div class="card-tags">
+            
+              <span class="tag-pill">Penetration Testing</span>
+            
+              <span class="tag-pill">OWASP Top 10</span>
+            
+              <span class="tag-pill">API Security</span>
+            
+              <span class="tag-pill">Burp Suite</span>
+            
+              <span class="tag-pill">Vulnerability Assessment</span>
+            
+          </div>
+        
+
+        
+          <div class="card-footer">
+            <a href="/contact/" class="card-link">
+              Inquire for Assessment →
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  
+    <div class="project-card" data-category="cybersecurity-freelance">
+      <div class="card-top">
+        <div class="card-badges">
+          <span class="card-category">Security Engineering</span>
+          
+            <span class="badge-pill badge-cyber">Production Case Study</span>
+          
+        </div>
+        <h3 class="card-title">
+          
+            <a href="https://github.com/Ahpatsum15" target="_blank" rel="noopener">
+              Automated Vulnerability Management &amp; Risk Scoring API
+            </a>
+          
+        </h3>
+        <p class="card-desc">Automated vulnerability ingestion, CVE/CVSS/EPSS enrichment, and real-time prioritization platform developed for enterprise infrastructure. Built with Python FastAPI and SQLAlchemy.</p>
+
+        
+          <ul class="card-highlights">
+            
+              <li>Continuous ingestion of enterprise assets and automated threat intelligence mapping</li>
+            
+              <li>Dynamic remediation prioritization using EPSS, CVSS v3/v4, and exploitability data</li>
+            
+              <li>REST API enabling automated alerts, tracking dashboards, and ticketing integrations</li>
+            
+          </ul>
+        
+      </div>
+
+      <div class="card-bottom">
+        
+          <div class="card-tags">
+            
+              <span class="tag-pill">FastAPI</span>
+            
+              <span class="tag-pill">Python</span>
+            
+              <span class="tag-pill">CVE/CVSS/EPSS</span>
+            
+              <span class="tag-pill">Vulnerability Management</span>
+            
+              <span class="tag-pill">SQLAlchemy</span>
+            
+          </div>
+        
+
+        
+          <div class="card-footer">
+            <a href="https://github.com/Ahpatsum15" class="card-link" target="_blank" rel="noopener">
+              View GitHub Context →
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  
+    <div class="project-card" data-category="cybersecurity-freelance">
+      <div class="card-top">
+        <div class="card-badges">
+          <span class="card-category">Threat Intelligence</span>
+          
+            <span class="badge-pill badge-cyber">Enterprise Project</span>
+          
+        </div>
+        <h3 class="card-title">
+          
+            <a href="/contact/">
+              Attack Surface Management (ASM) &amp; OSINT Intelligence Monitor
+            </a>
+          
+        </h3>
+        <p class="card-desc">External attack surface monitoring system combining open-source intelligence (OSINT) with automated external scanning to map shadow IT, exposed services, leaked secrets, and DNS anomalies.</p>
+
+        
+          <ul class="card-highlights">
+            
+              <li>Automated discovery of subdomains, orphaned cloud endpoints, and dangling DNS</li>
+            
+              <li>Continuous reconnaissance pipeline alerting security teams on exposure spikes</li>
+            
+              <li>Custom dashboards and API endpoints for immediate attack surface mitigation</li>
+            
+          </ul>
+        
+      </div>
+
+      <div class="card-bottom">
+        
+          <div class="card-tags">
+            
+              <span class="tag-pill">OSINT</span>
+            
+              <span class="tag-pill">Attack Surface Management</span>
+            
+              <span class="tag-pill">Reconnaissance</span>
+            
+              <span class="tag-pill">Python</span>
+            
+              <span class="tag-pill">Threat Intel</span>
+            
+          </div>
+        
+
+        
+          <div class="card-footer">
+            <a href="/contact/" class="card-link">
+              Consult on ASM →
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  
+    <div class="project-card" data-category="cybersecurity-freelance">
+      <div class="card-top">
+        <div class="card-badges">
+          <span class="card-category">SIEM &amp; SOC Engineering</span>
+          
+            <span class="badge-pill badge-cyber">Completed (Nokia R&amp;D)</span>
+          
+        </div>
+        <h3 class="card-title">
+          
+            <a href="https://github.com/Ahpatsum15" target="_blank" rel="noopener">
+              Microsoft Sentinel SIEM Detection Engineering &amp; KQL Rules
+            </a>
+          
+        </h3>
+        <p class="card-desc">Authoring high-fidelity detection rules in Kusto Query Language (KQL) mapped to MITRE ATT&amp;CK for 5G Core Network Repository Function (NRF) and cloud infrastructure within Microsoft Sentinel.</p>
+
+        
+          <ul class="card-highlights">
+            
+              <li>Vulnerability taxonomy and threat modeling for 5G Core network functions</li>
+            
+              <li>Custom KQL analytics rules designed to catch lateral movement and privilege abuse</li>
+            
+              <li>Automated incident response playbooks (SOAR) reducing mean time to remediate (MTTR)</li>
+            
+          </ul>
+        
+      </div>
+
+      <div class="card-bottom">
+        
+          <div class="card-tags">
+            
+              <span class="tag-pill">Microsoft Sentinel</span>
+            
+              <span class="tag-pill">KQL</span>
+            
+              <span class="tag-pill">MITRE ATT&amp;CK</span>
+            
+              <span class="tag-pill">5G Security</span>
+            
+              <span class="tag-pill">SIEM / SOC</span>
+            
+          </div>
+        
+
+        
+          <div class="card-footer">
+            <a href="https://github.com/Ahpatsum15" class="card-link" target="_blank" rel="noopener">
+              Learn More →
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  
+    <div class="project-card" data-category="cybersecurity-freelance">
+      <div class="card-top">
+        <div class="card-badges">
+          <span class="card-category">Cryptography &amp; PKI</span>
+          
+            <span class="badge-pill badge-primary">Production Case Study</span>
+          
+        </div>
+        <h3 class="card-title">
+          
+            <a href="/contact/">
+              Cryptographic Public Key Directory &amp; PKI Management API
+            </a>
+          
+        </h3>
+        <p class="card-desc">Secure, tamper-evident internal directory designed for public key management, PGP key distribution, and digital signature validation across distributed enterprise teams.</p>
+
+        
+          <ul class="card-highlights">
+            
+              <li>Strict cryptographic verification of key authenticity and ownership</li>
+            
+              <li>Lifecycle management for key rotation, revocation, and automated renewals</li>
+            
+              <li>Hardened REST API ensuring confidentiality, integrity, and non-repudiation</li>
+            
+          </ul>
+        
+      </div>
+
+      <div class="card-bottom">
+        
+          <div class="card-tags">
+            
+              <span class="tag-pill">Cryptography</span>
+            
+              <span class="tag-pill">PKI</span>
+            
+              <span class="tag-pill">PGP / GPG</span>
+            
+              <span class="tag-pill">Key Management</span>
+            
+              <span class="tag-pill">Python</span>
+            
+          </div>
+        
+
+        
+          <div class="card-footer">
+            <a href="/contact/" class="card-link">
+              Request Details →
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  
+    <div class="project-card" data-category="information-theory-phd">
+      <div class="card-top">
+        <div class="card-badges">
+          <span class="card-category">PhD Research</span>
+          
+            <span class="badge-pill badge-quantum">Ongoing PhD Dissertation</span>
+          
+        </div>
+        <h3 class="card-title">
+          
+            <a href="/blog/">
+              Secrecy Capacity &amp; Coding for Noisy Quantum Wiretap Channels
+            </a>
+          
+        </h3>
+        <p class="card-desc">Doctoral research at UM6P College of Computing investigating information-theoretic security bounds, wiretap channel models, and code construction for transmitting secure classical information over noisy quantum channels.</p>
+
+        
+          <ul class="card-highlights">
+            
+              <li>Characterization of private classical capacity and quantum secrecy bounds</li>
+            
+              <li>Degraded and non-degraded quantum wiretap channel mathematical models</li>
+            
+              <li>Design of polar and LDPC codes achieving wiretap secrecy capacity</li>
+            
+          </ul>
+        
+      </div>
+
+      <div class="card-bottom">
+        
+          <div class="card-tags">
+            
+              <span class="tag-pill">Information Theory</span>
+            
+              <span class="tag-pill">Quantum Information</span>
+            
+              <span class="tag-pill">Wiretap Channel</span>
+            
+              <span class="tag-pill">Secrecy Capacity</span>
+            
+              <span class="tag-pill">PhD Research</span>
+            
+          </div>
+        
+
+        
+          <div class="card-footer">
+            <a href="/blog/" class="card-link">
+              Read PhD Articles →
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  
+    <div class="project-card" data-category="information-theory-phd">
+      <div class="card-top">
+        <div class="card-badges">
+          <span class="card-category">Academic Resource</span>
+          
+            <span class="badge-pill badge-primary">Published Open Source</span>
+          
+        </div>
+        <h3 class="card-title">
+          
+            <a href="https://github.com/Ahpatsum15/Understanding-cryptography-solution-handbook-even-numbered" target="_blank" rel="noopener">
+              Understanding Cryptography Solution Handbook
+            </a>
+          
+        </h3>
+        <p class="card-desc">Comprehensive mathematical solutions and explanations for textbook exercises from 'Understanding Cryptography' by Paar &amp; Pelzl. Covering symmetric ciphers, public-key algorithms, and finite field arithmetic.</p>
+
+        
+          <ul class="card-highlights">
+            
+              <li>Rigorous mathematical proofs for number theory and modular arithmetic</li>
+            
+              <li>Detailed breakdown of AES, RSA, Diffie-Hellman, and Elliptic Curve Cryptography</li>
+            
+              <li>Widely used open-source reference for cryptography students and researchers</li>
+            
+          </ul>
+        
+      </div>
+
+      <div class="card-bottom">
+        
+          <div class="card-tags">
+            
+              <span class="tag-pill">Cryptography</span>
+            
+              <span class="tag-pill">Number Theory</span>
+            
+              <span class="tag-pill">AES / RSA / ECC</span>
+            
+              <span class="tag-pill">Open Source</span>
+            
+          </div>
+        
+
+        
+          <div class="card-footer">
+            <a href="https://github.com/Ahpatsum15/Understanding-cryptography-solution-handbook-even-numbered" class="card-link" target="_blank" rel="noopener">
+              View GitHub Repository →
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  
+    <div class="project-card" data-category="information-theory-phd">
+      <div class="card-top">
+        <div class="card-badges">
+          <span class="card-category">R&amp;D Research</span>
+          
+            <span class="badge-pill badge-ml">Completed Research</span>
+          
+        </div>
+        <h3 class="card-title">
+          
+            <a href="https://github.com/Ahpatsum15" target="_blank" rel="noopener">
+              Satellite Communication Interference Detection via Autoencoders
+            </a>
+          
+        </h3>
+        <p class="card-desc">Signal processing and unsupervised deep learning framework using deep autoencoders to detect, isolate, and classify non-cooperative RF interference in satellite communication channels.</p>
+
+        
+          <ul class="card-highlights">
+            
+              <li>Unsupervised anomaly detection trained on normal RF spectrum distributions</li>
+            
+              <li>High-accuracy classification under severe signal-to-noise ratio (SNR) degradation</li>
+            
+              <li>Conducted at IMT Atlantique Telecommunications Research Lab</li>
+            
+          </ul>
+        
+      </div>
+
+      <div class="card-bottom">
+        
+          <div class="card-tags">
+            
+              <span class="tag-pill">Signal Processing</span>
+            
+              <span class="tag-pill">Deep Learning</span>
+            
+              <span class="tag-pill">Autoencoders</span>
+            
+              <span class="tag-pill">PyTorch</span>
+            
+              <span class="tag-pill">Satellite Comms</span>
+            
+          </div>
+        
+
+        
+          <div class="card-footer">
+            <a href="https://github.com/Ahpatsum15" class="card-link" target="_blank" rel="noopener">
+              View Research Notes →
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  
+    <div class="project-card" data-category="machine-learning">
+      <div class="card-top">
+        <div class="card-badges">
+          <span class="card-category">Technical Publication</span>
+          
+            <span class="badge-pill badge-ml">Published</span>
+          
+        </div>
+        <h3 class="card-title">
+          
+            <a href="/blog/">
+              Linear Regression: Foundations, Optimization, and Robust Estimation
+            </a>
+          
+        </h3>
+        <p class="card-desc">In-depth mathematical and algorithmic breakdown of linear regression from first principles: normal equations, gradient descent variants, condition numbers, and robust estimators (Huber, RANSAC).</p>
+
+        
+          <ul class="card-highlights">
+            
+              <li>Mathematical derivations with complete LaTeX proofs and geometric interpretations</li>
+            
+              <li>Benchmarking numerical stability and condition numbers in NumPy</li>
+            
+              <li>Complete Python implementation with comparative visualizations</li>
+            
+          </ul>
+        
+      </div>
+
+      <div class="card-bottom">
+        
+          <div class="card-tags">
+            
+              <span class="tag-pill">Machine Learning</span>
+            
+              <span class="tag-pill">Mathematics</span>
+            
+              <span class="tag-pill">NumPy</span>
+            
+              <span class="tag-pill">Optimization</span>
+            
+          </div>
+        
+
+        
+          <div class="card-footer">
+            <a href="/blog/" class="card-link">
+              Read Full Article →
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  
+    <div class="project-card" data-category="machine-learning">
+      <div class="card-top">
+        <div class="card-badges">
+          <span class="card-category">Security Tool</span>
+          
+            <span class="badge-pill badge-cyber">Open Source Tool</span>
+          
+        </div>
+        <h3 class="card-title">
+          
+            <a href="https://github.com/Ahpatsum15" target="_blank" rel="noopener">
+              UnhashIt — Smart Cryptographic Hash Analyzer
+            </a>
+          
+        </h3>
+        <p class="card-desc">Intelligent cryptographic hash identification and cracking orchestrator. Identifies obscure hash formats, hash lengths, and entropy signatures with automated dictionary and rule attacks.</p>
+
+        
+          <ul class="card-highlights">
+            
+              <li>Rapid identification across 200+ hash types using structural heuristics</li>
+            
+              <li>Integration with popular cracking frameworks and custom wordlists</li>
+            
+          </ul>
+        
+      </div>
+
+      <div class="card-bottom">
+        
+          <div class="card-tags">
+            
+              <span class="tag-pill">Cryptography</span>
+            
+              <span class="tag-pill">Python</span>
+            
+              <span class="tag-pill">Hash Identification</span>
+            
+              <span class="tag-pill">Security Tools</span>
+            
+          </div>
+        
+
+        
+          <div class="card-footer">
+            <a href="https://github.com/Ahpatsum15" class="card-link" target="_blank" rel="noopener">
+              Explore on GitHub →
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  
+</div>
+
+<!-- Easy note for adding projects -->
+<div style="background: var(--bg-subtle); border: 1px dashed var(--border-color); border-radius: 12px; padding: 1.5rem; text-align: center; margin-top: 2rem;">
+  <p style="margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">💼 Ready to collaborate on your next cybersecurity project or hire me for consulting?</p>
+  <p style="margin-bottom: 1rem; font-size: 0.95rem;">I am available for freelance penetration tests, security audits, and DevSecOps advisory contracts.</p>
+  <a href="/contact/" class="btn btn-sm btn-primary">Initiate Contact</a>
+</div>
 
       </div>
     </main>
 
+    <!-- Back to top floating button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top" title="Back to top">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
     <!-- _includes/footer.html -->
 <footer class="site-footer">
-  <div class="wrapper">
-    <p>&copy; 2026 M. EL BOUAZAOUI. All rights reserved.</p>
-    <div class="social-links">
-      
-        <a href="https://www.linkedin.com/in/elbouazaouimustapha" target="_blank">LinkedIn</a>
-      
-      
-        <a href="https://github.com/Ahpatsum15" target="_blank">GitHub</a>
-      
-      <!--
-        <a href="https://twitter.com/AhpaTsum1337" target="_blank">Twitter</a>
-      -->
-      <a href="mailto:mustaphaelbouazaoui@gmail.com">Email</a>
+  <div class="wrapper footer-container">
+    <div class="footer-col-about">
+      <div class="footer-brand">
+        <span class="site-title-avatar">ME</span>
+        <strong>Mustapha El Bouazaoui</strong>
+      </div>
+      <p class="footer-desc">
+        PhD Researcher in Information Theory & Quantum Computing at UM6P.<br>
+        Cybersecurity & Telecom Engineer (IMT Atlantique) — Available for freelance security consulting, penetration testing, and DevSecOps.
+      </p>
+      <div class="availability-badge">
+        <span class="status-dot"></span> Available for freelance projects & research collaborations
+      </div>
+    </div>
+
+    <div class="footer-col-links">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About Me</a></li>
+        <li><a href="/projects/">Projects & Services</a></li>
+        <li><a href="/blog/">PhD Articles & Blog</a></li>
+        <li><a href="/contact/">Contact & Hire</a></li>
+        <li><a href="/assets/files/CV_PhD_mustapha_el%20bouazaoui_updated.pdf" target="_blank">Download CV (PDF)</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col-connect">
+      <h4>Connect</h4>
+      <div class="social-links-grid">
+        
+          <a href="https://www.linkedin.com/in/elbouazaouimustapha" target="_blank" rel="noopener" class="social-btn" title="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+            <span>LinkedIn</span>
+          </a>
+        
+        
+          <a href="https://github.com/Ahpatsum15" target="_blank" rel="noopener" class="social-btn" title="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            <span>GitHub</span>
+          </a>
+        
+        
+          <a href="https://twitter.com/AhpaTsum1337" target="_blank" rel="noopener" class="social-btn" title="Twitter / X">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            <span>Twitter</span>
+          </a>
+        
+        <a href="mailto:mustaphaelbouazaoui@gmail.com" class="social-btn" title="Email">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <span>Email</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="wrapper">
+      <p>&copy; 2026 Mustapha El Bouazaoui. All rights reserved. Built with Jekyll.</p>
     </div>
   </div>
 </footer>
 
-    <script src="/assets/js/main.js"></script> <!-- Optional JS -->
-  </body>
 
+    <script src="/assets/js/main.js"></script>
+  </body>
 </html>

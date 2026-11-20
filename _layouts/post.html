@@ -1,0 +1,81 @@
+---
+layout: default
+---
+<!-- _layouts/post.html -->
+<article class="post-article">
+  <div class="post-header">
+    <div class="post-breadcrumb">
+      <a href="{{ '/blog/' | relative_url }}">&larr; Back to PhD Articles & Blog</a>
+    </div>
+
+    {% if page.categories %}
+      <div class="post-categories">
+        {% for cat in page.categories %}
+          <span class="badge-pill category-badge">{{ cat | replace: "-", " " | capitalize }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <h1 class="post-main-title">{{ page.title }}</h1>
+
+    <div class="post-meta-bar">
+      <div class="meta-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <span>{{ page.date | date: "%B %-d, %Y" }}</span>
+      </div>
+
+      {% if page.author %}
+        <div class="meta-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span>{{ page.author }}</span>
+        </div>
+      {% endif %}
+
+      <div class="meta-item reading-time">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span id="reading-time-estimate">Calculating reading time...</span>
+      </div>
+    </div>
+
+    {% if page.tags %}
+      <div class="post-tags-list">
+        {% for tag in page.tags %}
+          <span class="tag-pill">#{{ tag }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="post-content" id="post-content">
+    {{ content }}
+  </div>
+
+  <div class="post-author-box">
+    <div class="author-avatar-col">
+      <img src="{{ '/assets/images/profile.jpg' | relative_url }}" alt="Mustapha El Bouazaoui" class="author-avatar">
+    </div>
+    <div class="author-bio-col">
+      <h3>Written by Mustapha El Bouazaoui</h3>
+      <p>PhD Researcher in Information Theory & Quantum Information at UM6P College of Computing. Cybersecurity & Telecom Engineer (IMT Atlantique) specializing in quantum secrecy capacity, cryptography, and penetration testing.</p>
+      <div class="author-links">
+        <a href="{{ '/contact/' | relative_url }}" class="btn btn-sm btn-primary">Get in Touch</a>
+        <a href="{{ site.cv_url | relative_url }}" class="btn btn-sm btn-outline" target="_blank">View CV</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-footer-nav">
+    <a href="{{ '/blog/' | relative_url }}" class="btn btn-outline">&larr; Return to All Articles</a>
+  </div>
+</article>

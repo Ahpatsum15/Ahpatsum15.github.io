@@ -1,40 +1,216 @@
 # _data/projects.yml
-- name: "Understanding Cryptography Solutions"
-  url: "https://github.com/Ahpatsum15/understanding-cryptography"
-  description: "Solutions and explanations for exercises from the 'Understanding Cryptography' textbook."
-  category: "Cryptography"
+# ------------------------------------------------------------------------------
+# HOW TO ADD A NEW PROJECT (FREELANCE OR RESEARCH):
+# Simply copy one of the blocks below, fill in your details, and specify category:
+#   category: "cybersecurity-freelance"  -> Shows under Cybersecurity & Freelance
+#   category: "information-theory-phd"    -> Shows under PhD & Information Theory
+#   category: "machine-learning"         -> Shows under Machine Learning & Tools
+# ------------------------------------------------------------------------------
 
-- name: "UnhashIt"
-  url: "https://github.com/Ahpatsum15/unhashit"
-  description: "A smart hash analyzer tool."
-  category: "Cryptography"
+# ==============================================================================
+# 🛡️ CYBERSECURITY & FREELANCE PROJECTS / CASE STUDIES
+# ==============================================================================
 
-- name: "Vulnerability Management API"
-  # url: "#" # Add if you have a dedicated page/repo
-  description: "Developed an API for automated vulnerability detection and risk assessment. (R&D Engineer, +Simple Assurtech)"
-  category: "Professional"
+- name: "Web & API Penetration Testing & Vulnerability Assessment"
+  category: "cybersecurity-freelance"
+  category_display: "Freelance Service"
+  badge_class: "badge-cyber"
+  status: "Available for Hire"
+  featured: true
+  description: "Comprehensive offensive security assessments for modern web applications and REST APIs. Identification of business logic flaws, OWASP Top 10 vulnerabilities, auth bypasses, and security misconfigurations."
+  highlights:
+    - "Manual & automated penetration testing with tailored proof-of-concepts"
+    - "OWASP Top 10 & API Security Top 10 compliance validation"
+    - "Clear executive summaries and actionable engineering remediation reports"
+  tags:
+    - "Penetration Testing"
+    - "OWASP Top 10"
+    - "API Security"
+    - "Burp Suite"
+    - "Vulnerability Assessment"
+  url: "/contact/"
+  link_text: "Inquire for Assessment →"
 
-- name: "Attack Surface Management API"
-  # url: "#"
-  description: "Built an API to manage and monitor the organization's attack surface with regular scans and alerts. (R&D Engineer, +Simple Assurtech)"
-  category: "Professional"
+- name: "Automated Vulnerability Management & Risk Scoring API"
+  category: "cybersecurity-freelance"
+  category_display: "Security Engineering"
+  badge_class: "badge-cyber"
+  status: "Production Case Study"
+  featured: true
+  description: "Automated vulnerability ingestion, CVE/CVSS/EPSS enrichment, and real-time prioritization platform developed for enterprise infrastructure. Built with Python FastAPI and SQLAlchemy."
+  highlights:
+    - "Continuous ingestion of enterprise assets and automated threat intelligence mapping"
+    - "Dynamic remediation prioritization using EPSS, CVSS v3/v4, and exploitability data"
+    - "REST API enabling automated alerts, tracking dashboards, and ticketing integrations"
+  tags:
+    - "FastAPI"
+    - "Python"
+    - "CVE/CVSS/EPSS"
+    - "Vulnerability Management"
+    - "SQLAlchemy"
+  url: "https://github.com/Ahpatsum15"
+  link_text: "View GitHub Context →"
 
-- name: "PGP Key Management API"
-  # url: "#"
-  description: "Created an internal directory for managing PGP public keys. (R&D Engineer, +Simple Assurtech)"
-  category: "Professional"
+- name: "Attack Surface Management (ASM) & OSINT Intelligence Monitor"
+  category: "cybersecurity-freelance"
+  category_display: "Threat Intelligence"
+  badge_class: "badge-cyber"
+  status: "Enterprise Project"
+  featured: true
+  description: "External attack surface monitoring system combining open-source intelligence (OSINT) with automated external scanning to map shadow IT, exposed services, leaked secrets, and DNS anomalies."
+  highlights:
+    - "Automated discovery of subdomains, orphaned cloud endpoints, and dangling DNS"
+    - "Continuous reconnaissance pipeline alerting security teams on exposure spikes"
+    - "Custom dashboards and API endpoints for immediate attack surface mitigation"
+  tags:
+    - "OSINT"
+    - "Attack Surface Management"
+    - "Reconnaissance"
+    - "Python"
+    - "Threat Intel"
+  url: "/contact/"
+  link_text: "Consult on ASM →"
 
-- name: "5G NRF Security Analysis"
-  # url: "#"
-  description: "Researched the Network Repository Function (NRF) in 5G, defined vulnerabilities, and integrated Microsoft Sentinel for monitoring. (Intern, Nokia)"
-  category: "Professional"
+- name: "Microsoft Sentinel SIEM Detection Engineering & KQL Rules"
+  category: "cybersecurity-freelance"
+  category_display: "SIEM & SOC Engineering"
+  badge_class: "badge-cyber"
+  status: "Completed (Nokia R&D)"
+  featured: true
+  description: "Authoring high-fidelity detection rules in Kusto Query Language (KQL) mapped to MITRE ATT&CK for 5G Core Network Repository Function (NRF) and cloud infrastructure within Microsoft Sentinel."
+  highlights:
+    - "Vulnerability taxonomy and threat modeling for 5G Core network functions"
+    - "Custom KQL analytics rules designed to catch lateral movement and privilege abuse"
+    - "Automated incident response playbooks (SOAR) reducing mean time to remediate (MTTR)"
+  tags:
+    - "Microsoft Sentinel"
+    - "KQL"
+    - "MITRE ATT&CK"
+    - "5G Security"
+    - "SIEM / SOC"
+  url: "https://github.com/Ahpatsum15"
+  link_text: "Learn More →"
 
-- name: "Satellite Communication Interference Detection"
-  # url: "#"
-  description: "Used autoencoders for detecting and classifying interference in satellite communications. (Intern, IMT Atlantique)"
-  category: "Professional"
+- name: "Cryptographic Public Key Directory & PKI Management API"
+  category: "cybersecurity-freelance"
+  category_display: "Cryptography & PKI"
+  badge_class: "badge-primary"
+  status: "Production Case Study"
+  featured: false
+  description: "Secure, tamper-evident internal directory designed for public key management, PGP key distribution, and digital signature validation across distributed enterprise teams."
+  highlights:
+    - "Strict cryptographic verification of key authenticity and ownership"
+    - "Lifecycle management for key rotation, revocation, and automated renewals"
+    - "Hardened REST API ensuring confidentiality, integrity, and non-repudiation"
+  tags:
+    - "Cryptography"
+    - "PKI"
+    - "PGP / GPG"
+    - "Key Management"
+    - "Python"
+  url: "/contact/"
+  link_text: "Request Details →"
 
-# - name: "Deep Learning Project"
-#   url: "#"
-#   description: "Coming soon: Deep learning projects and visualizations."
-#   category: "Machine Learning"
+# ==============================================================================
+# 🔬 PH.D. & INFORMATION THEORY RESEARCH PROJECTS
+# ==============================================================================
+
+- name: "Secrecy Capacity & Coding for Noisy Quantum Wiretap Channels"
+  category: "information-theory-phd"
+  category_display: "PhD Research"
+  badge_class: "badge-quantum"
+  status: "Ongoing PhD Dissertation"
+  featured: true
+  description: "Doctoral research at UM6P College of Computing investigating information-theoretic security bounds, wiretap channel models, and code construction for transmitting secure classical information over noisy quantum channels."
+  highlights:
+    - "Characterization of private classical capacity and quantum secrecy bounds"
+    - "Degraded and non-degraded quantum wiretap channel mathematical models"
+    - "Design of polar and LDPC codes achieving wiretap secrecy capacity"
+  tags:
+    - "Information Theory"
+    - "Quantum Information"
+    - "Wiretap Channel"
+    - "Secrecy Capacity"
+    - "PhD Research"
+  url: "/blog/"
+  link_text: "Read PhD Articles →"
+
+- name: "Understanding Cryptography Solution Handbook"
+  category: "information-theory-phd"
+  category_display: "Academic Resource"
+  badge_class: "badge-primary"
+  status: "Published Open Source"
+  featured: true
+  description: "Comprehensive mathematical solutions and explanations for textbook exercises from 'Understanding Cryptography' by Paar & Pelzl. Covering symmetric ciphers, public-key algorithms, and finite field arithmetic."
+  highlights:
+    - "Rigorous mathematical proofs for number theory and modular arithmetic"
+    - "Detailed breakdown of AES, RSA, Diffie-Hellman, and Elliptic Curve Cryptography"
+    - "Widely used open-source reference for cryptography students and researchers"
+  tags:
+    - "Cryptography"
+    - "Number Theory"
+    - "AES / RSA / ECC"
+    - "Open Source"
+  url: "https://github.com/Ahpatsum15/Understanding-cryptography-solution-handbook-even-numbered"
+  link_text: "View GitHub Repository →"
+
+- name: "Satellite Communication Interference Detection via Autoencoders"
+  category: "information-theory-phd"
+  category_display: "R&D Research"
+  badge_class: "badge-ml"
+  status: "Completed Research"
+  featured: false
+  description: "Signal processing and unsupervised deep learning framework using deep autoencoders to detect, isolate, and classify non-cooperative RF interference in satellite communication channels."
+  highlights:
+    - "Unsupervised anomaly detection trained on normal RF spectrum distributions"
+    - "High-accuracy classification under severe signal-to-noise ratio (SNR) degradation"
+    - "Conducted at IMT Atlantique Telecommunications Research Lab"
+  tags:
+    - "Signal Processing"
+    - "Deep Learning"
+    - "Autoencoders"
+    - "PyTorch"
+    - "Satellite Comms"
+  url: "https://github.com/Ahpatsum15"
+  link_text: "View Research Notes →"
+
+# ==============================================================================
+# 🤖 MACHINE LEARNING & TOOLS
+# ==============================================================================
+
+- name: "Linear Regression: Foundations, Optimization, and Robust Estimation"
+  category: "machine-learning"
+  category_display: "Technical Publication"
+  badge_class: "badge-ml"
+  status: "Published"
+  featured: false
+  description: "In-depth mathematical and algorithmic breakdown of linear regression from first principles: normal equations, gradient descent variants, condition numbers, and robust estimators (Huber, RANSAC)."
+  highlights:
+    - "Mathematical derivations with complete LaTeX proofs and geometric interpretations"
+    - "Benchmarking numerical stability and condition numbers in NumPy"
+    - "Complete Python implementation with comparative visualizations"
+  tags:
+    - "Machine Learning"
+    - "Mathematics"
+    - "NumPy"
+    - "Optimization"
+  url: "/blog/"
+  link_text: "Read Full Article →"
+
+- name: "UnhashIt — Smart Cryptographic Hash Analyzer"
+  category: "machine-learning"
+  category_display: "Security Tool"
+  badge_class: "badge-cyber"
+  status: "Open Source Tool"
+  featured: false
+  description: "Intelligent cryptographic hash identification and cracking orchestrator. Identifies obscure hash formats, hash lengths, and entropy signatures with automated dictionary and rule attacks."
+  highlights:
+    - "Rapid identification across 200+ hash types using structural heuristics"
+    - "Integration with popular cracking frameworks and custom wordlists"
+  tags:
+    - "Cryptography"
+    - "Python"
+    - "Hash Identification"
+    - "Security Tools"
+  url: "https://github.com/Ahpatsum15"
+  link_text: "Explore on GitHub →"
